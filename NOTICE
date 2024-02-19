@@ -1,0 +1,11 @@
+Hyperdiv
+Copyright 2023-2024 Marius Nita <m@mariusnita.com>
+
+The API design and architecture of Hyperdiv are inspired by
+foundational concepts developed in collaboration with Morgan Dixon
+<morgan.dixon@gmail.com> (https://morgandixon.net) during 2021-2022
+while developing an unpublished prototype. The foundational ideas
+from the initial collaboration are acknowledged.
+
+This project is licensed under the Apache License Version 2.0. See the
+accompanying LICENSE file for terms and conditions.

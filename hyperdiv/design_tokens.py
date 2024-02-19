@@ -1,0 +1,431 @@
+from enum import Enum
+
+
+class TokenEnum(Enum):
+    @classmethod
+    def values(cls):
+        return [e.value for e in list(cls)]
+
+    def render(self):
+        raise NotImplementedError()
+
+
+class Spacing(TokenEnum):
+    """`Spacing` provides design tokens for consistent size and spacing in
+    your components.
+    """
+
+    three_x_small = "3x-small"
+    two_x_small = "2x-small"
+    x_small = "x-small"
+    small = "small"
+    medium = "medium"
+    large = "large"
+    x_large = "x-large"
+    two_x_large = "2x-large"
+    three_x_large = "3x-large"
+    four_x_large = "4x-large"
+
+    def render(self):
+        return f"var(--sl-spacing-{self.value})"
+
+
+class Shadow(TokenEnum):
+    """`Shadow` provides tokens for adding drop shadows to components."""
+
+    x_small = "x-small"
+    small = "small"
+    medium = "medium"
+    large = "large"
+    x_large = "x-large"
+
+    def render(self):
+        return f"var(--sl-shadow-{self.value})"
+
+
+class BorderRadius(TokenEnum):
+    """`BorderRadius` provides tokens for adding rounded corners to
+    components.
+    """
+
+    small = "small"
+    medium = "medium"
+    large = "large"
+    x_large = "x-large"
+    circle = "circle"
+    pill = "pill"
+
+    def render(self):
+        return f"var(--sl-border-radius-{self.value})"
+
+
+class FontFamily(TokenEnum):
+    """`FontFamily` provides tokens for consistent sans-serif, serif, and monospace fonts."""
+
+    sans_serif = "sans-serif"
+    serif = "serif"
+    mono = "mono"
+
+    def render(self):
+        value = self.value
+        if value == "sans-serif":
+            value = "sans"
+        return f"var(--sl-font-{value})"
+
+
+class FontSize(TokenEnum):
+    """`FontSize` provides tokens for consistent font sizes."""
+
+    two_x_small = "2x-small"
+    x_small = "x-small"
+    small = "small"
+    medium = "medium"
+    large = "large"
+    x_large = "x-large"
+    two_x_large = "2x-large"
+    three_x_large = "3x-large"
+    four_x_large = "4x-large"
+
+    def render(self):
+        return f"var(--sl-font-size-{self.value})"
+
+
+class FontWeight(TokenEnum):
+    """`FontWeight` provides tokens for consistent font weights (how bold
+    text is)."""
+
+    light = "light"
+    normal = "normal"
+    semibold = "semibold"
+    bold = "bold"
+
+    def render(self):
+        return f"var(--sl-font-weight-{self.value})"
+
+
+class LetterSpacing(TokenEnum):
+    """`LetterSpacing` provides tokens for consistently spacing apart the
+    letters of text."""
+
+    denser = "denser"
+    dense = "dense"
+    normal = "normal"
+    loose = "loose"
+    looser = "looser"
+
+    def render(self):
+        return f"var(--sl-letter-spacing-{self.value})"
+
+
+class LineHeight(TokenEnum):
+    """`LineHeight` provides tokens for consistent spacing between the
+    lines of continuous text."""
+
+    denser = "denser"
+    dense = "dense"
+    normal = "normal"
+    loose = "loose"
+    looser = "looser"
+
+    def render(self):
+        return f"var(--sl-line-height-{self.value})"
+
+
+class Color(TokenEnum):
+    """
+    `Color` defines the colors available to a Hyperdiv
+    app. A prop that has type `DesignToken(Color)` accepts any one of
+    these values.
+
+    These colors adapt to the theme mode -- they will look good
+    regardless of whether the app uses light or dark mode, and
+    "invert" appropriately. For example, in dark mode,
+    `"neutral-1000"` is white and `"neutral-0"` is black.  In light
+    mode, `"neutral-1000"` is black and `"neutral-0"` is white.
+    """
+
+    primary = "primary"
+    primary_50 = "primary-50"
+    primary_100 = "primary-100"
+    primary_200 = "primary-200"
+    primary_300 = "primary-300"
+    primary_400 = "primary-400"
+    primary_500 = "primary-500"
+    primary_600 = "primary-600"
+    primary_700 = "primary-700"
+    primary_800 = "primary-800"
+    primary_900 = "primary-900"
+    primary_950 = "primary-950"
+    success = "success"
+    success_50 = "success-50"
+    success_100 = "success-100"
+    success_200 = "success-200"
+    success_300 = "success-300"
+    success_400 = "success-400"
+    success_500 = "success-500"
+    success_600 = "success-600"
+    success_700 = "success-700"
+    success_800 = "success-800"
+    success_900 = "success-900"
+    success_950 = "success-950"
+    warning = "warning"
+    warning_50 = "warning-50"
+    warning_100 = "warning-100"
+    warning_200 = "warning-200"
+    warning_300 = "warning-300"
+    warning_400 = "warning-400"
+    warning_500 = "warning-500"
+    warning_600 = "warning-600"
+    warning_700 = "warning-700"
+    warning_800 = "warning-800"
+    warning_900 = "warning-900"
+    warning_950 = "warning-950"
+    danger = "danger"
+    danger_50 = "danger-50"
+    danger_100 = "danger-100"
+    danger_200 = "danger-200"
+    danger_300 = "danger-300"
+    danger_400 = "danger-400"
+    danger_500 = "danger-500"
+    danger_600 = "danger-600"
+    danger_700 = "danger-700"
+    danger_800 = "danger-800"
+    danger_900 = "danger-900"
+    danger_950 = "danger-950"
+    neutral = "neutral"
+    neutral_0 = "neutral-0"
+    neutral_50 = "neutral-50"
+    neutral_100 = "neutral-100"
+    neutral_200 = "neutral-200"
+    neutral_300 = "neutral-300"
+    neutral_400 = "neutral-400"
+    neutral_500 = "neutral-500"
+    neutral_600 = "neutral-600"
+    neutral_700 = "neutral-700"
+    neutral_800 = "neutral-800"
+    neutral_900 = "neutral-900"
+    neutral_950 = "neutral-950"
+    neutral_1000 = "neutral-1000"
+    gray = "gray"
+    gray_50 = "gray-50"
+    gray_100 = "gray-100"
+    gray_200 = "gray-200"
+    gray_300 = "gray-300"
+    gray_400 = "gray-400"
+    gray_500 = "gray-500"
+    gray_600 = "gray-600"
+    gray_700 = "gray-700"
+    gray_800 = "gray-800"
+    gray_900 = "gray-900"
+    gray_950 = "gray-950"
+    red = "red"
+    red_50 = "red-50"
+    red_100 = "red-100"
+    red_200 = "red-200"
+    red_300 = "red-300"
+    red_400 = "red-400"
+    red_500 = "red-500"
+    red_600 = "red-600"
+    red_700 = "red-700"
+    red_800 = "red-800"
+    red_900 = "red-900"
+    red_950 = "red-950"
+    orange = "orange"
+    orange_50 = "orange-50"
+    orange_100 = "orange-100"
+    orange_200 = "orange-200"
+    orange_300 = "orange-300"
+    orange_400 = "orange-400"
+    orange_500 = "orange-500"
+    orange_600 = "orange-600"
+    orange_700 = "orange-700"
+    orange_800 = "orange-800"
+    orange_900 = "orange-900"
+    orange_950 = "orange-950"
+    amber = "amber"
+    amber_50 = "amber-50"
+    amber_100 = "amber-100"
+    amber_200 = "amber-200"
+    amber_300 = "amber-300"
+    amber_400 = "amber-400"
+    amber_500 = "amber-500"
+    amber_600 = "amber-600"
+    amber_700 = "amber-700"
+    amber_800 = "amber-800"
+    amber_900 = "amber-900"
+    amber_950 = "amber-950"
+    yellow = "yellow"
+    yellow_50 = "yellow-50"
+    yellow_100 = "yellow-100"
+    yellow_200 = "yellow-200"
+    yellow_300 = "yellow-300"
+    yellow_400 = "yellow-400"
+    yellow_500 = "yellow-500"
+    yellow_600 = "yellow-600"
+    yellow_700 = "yellow-700"
+    yellow_800 = "yellow-800"
+    yellow_900 = "yellow-900"
+    yellow_950 = "yellow-950"
+    lime = "lime"
+    lime_50 = "lime-50"
+    lime_100 = "lime-100"
+    lime_200 = "lime-200"
+    lime_300 = "lime-300"
+    lime_400 = "lime-400"
+    lime_500 = "lime-500"
+    lime_600 = "lime-600"
+    lime_700 = "lime-700"
+    lime_800 = "lime-800"
+    lime_900 = "lime-900"
+    lime_950 = "lime-950"
+    green = "green"
+    green_50 = "green-50"
+    green_100 = "green-100"
+    green_200 = "green-200"
+    green_300 = "green-300"
+    green_400 = "green-400"
+    green_500 = "green-500"
+    green_600 = "green-600"
+    green_700 = "green-700"
+    green_800 = "green-800"
+    green_900 = "green-900"
+    green_950 = "green-950"
+    emerald = "emerald"
+    emerald_50 = "emerald-50"
+    emerald_100 = "emerald-100"
+    emerald_200 = "emerald-200"
+    emerald_300 = "emerald-300"
+    emerald_400 = "emerald-400"
+    emerald_500 = "emerald-500"
+    emerald_600 = "emerald-600"
+    emerald_700 = "emerald-700"
+    emerald_800 = "emerald-800"
+    emerald_900 = "emerald-900"
+    emerald_950 = "emerald-950"
+    teal = "teal"
+    teal_50 = "teal-50"
+    teal_100 = "teal-100"
+    teal_200 = "teal-200"
+    teal_300 = "teal-300"
+    teal_400 = "teal-400"
+    teal_500 = "teal-500"
+    teal_600 = "teal-600"
+    teal_700 = "teal-700"
+    teal_800 = "teal-800"
+    teal_900 = "teal-900"
+    teal_950 = "teal-950"
+    cyan = "cyan"
+    cyan_50 = "cyan-50"
+    cyan_100 = "cyan-100"
+    cyan_200 = "cyan-200"
+    cyan_300 = "cyan-300"
+    cyan_400 = "cyan-400"
+    cyan_500 = "cyan-500"
+    cyan_600 = "cyan-600"
+    cyan_700 = "cyan-700"
+    cyan_800 = "cyan-800"
+    cyan_900 = "cyan-900"
+    cyan_950 = "cyan-950"
+    sky = "sky"
+    sky_50 = "sky-50"
+    sky_100 = "sky-100"
+    sky_200 = "sky-200"
+    sky_300 = "sky-300"
+    sky_400 = "sky-400"
+    sky_500 = "sky-500"
+    sky_600 = "sky-600"
+    sky_700 = "sky-700"
+    sky_800 = "sky-800"
+    sky_900 = "sky-900"
+    sky_950 = "sky-950"
+    blue = "blue"
+    blue_50 = "blue-50"
+    blue_100 = "blue-100"
+    blue_200 = "blue-200"
+    blue_300 = "blue-300"
+    blue_400 = "blue-400"
+    blue_500 = "blue-500"
+    blue_600 = "blue-600"
+    blue_700 = "blue-700"
+    blue_800 = "blue-800"
+    blue_900 = "blue-900"
+    blue_950 = "blue-950"
+    indigo = "indigo"
+    indigo_50 = "indigo-50"
+    indigo_100 = "indigo-100"
+    indigo_200 = "indigo-200"
+    indigo_300 = "indigo-300"
+    indigo_400 = "indigo-400"
+    indigo_500 = "indigo-500"
+    indigo_600 = "indigo-600"
+    indigo_700 = "indigo-700"
+    indigo_800 = "indigo-800"
+    indigo_900 = "indigo-900"
+    indigo_950 = "indigo-950"
+    violet = "violet"
+    violet_50 = "violet-50"
+    violet_100 = "violet-100"
+    violet_200 = "violet-200"
+    violet_300 = "violet-300"
+    violet_400 = "violet-400"
+    violet_500 = "violet-500"
+    violet_600 = "violet-600"
+    violet_700 = "violet-700"
+    violet_800 = "violet-800"
+    violet_900 = "violet-900"
+    violet_950 = "violet-950"
+    purple = "purple"
+    purple_50 = "purple-50"
+    purple_100 = "purple-100"
+    purple_200 = "purple-200"
+    purple_300 = "purple-300"
+    purple_400 = "purple-400"
+    purple_500 = "purple-500"
+    purple_600 = "purple-600"
+    purple_700 = "purple-700"
+    purple_800 = "purple-800"
+    purple_900 = "purple-900"
+    purple_950 = "purple-950"
+    fuchsia = "fuchsia"
+    fuchsia_50 = "fuchsia-50"
+    fuchsia_100 = "fuchsia-100"
+    fuchsia_200 = "fuchsia-200"
+    fuchsia_300 = "fuchsia-300"
+    fuchsia_400 = "fuchsia-400"
+    fuchsia_500 = "fuchsia-500"
+    fuchsia_600 = "fuchsia-600"
+    fuchsia_700 = "fuchsia-700"
+    fuchsia_800 = "fuchsia-800"
+    fuchsia_900 = "fuchsia-900"
+    fuchsia_950 = "fuchsia-950"
+    pink = "pink"
+    pink_50 = "pink-50"
+    pink_100 = "pink-100"
+    pink_200 = "pink-200"
+    pink_300 = "pink-300"
+    pink_400 = "pink-400"
+    pink_500 = "pink-500"
+    pink_600 = "pink-600"
+    pink_700 = "pink-700"
+    pink_800 = "pink-800"
+    pink_900 = "pink-900"
+    pink_950 = "pink-950"
+    rose = "rose"
+    rose_50 = "rose-50"
+    rose_100 = "rose-100"
+    rose_200 = "rose-200"
+    rose_300 = "rose-300"
+    rose_400 = "rose-400"
+    rose_500 = "rose-500"
+    rose_600 = "rose-600"
+    rose_700 = "rose-700"
+    rose_800 = "rose-800"
+    rose_900 = "rose-900"
+    rose_950 = "rose-950"
+
+    def render(self):
+        value = self.value
+
+        if "-" not in value:
+            value = f"{value}-600"
+        return f"var(--sl-color-{value})"

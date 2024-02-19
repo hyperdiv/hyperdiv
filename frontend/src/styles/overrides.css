@@ -1,0 +1,309 @@
+html {
+  margin: 0;
+  font-size: var(--root-font-size);
+}
+
+.disconnected-cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  height: 100vh;
+  width: 100vw;
+  z-index: 100000;
+}
+
+.sl-theme-dark .disconnected-cover {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.sl-theme-light .disconnected-cover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.disconnected-icon-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  padding: 2rem;
+  border-radius: 4rem;
+  color: var(--sl-color-red-500);
+}
+
+.sl-theme-dark .disconnected-icon-container {
+  background-color: #111;
+  border: 1px solid #222;
+}
+
+.sl-theme-light .disconnected-icon-container {
+  background-color: #eee;
+  border: 1px solid #ddd;
+}
+
+
+.sl-theme-light {
+  --sl-shadow-x-small: 0 1px 2px hsl(240 3.8% 46.1% / 12%);
+  --sl-shadow-small: 0 1px 2px hsl(240 3.8% 46.1% / 24%);
+  --sl-shadow-medium: 0 2px 4px hsl(240 3.8% 46.1% / 24%);
+  --sl-shadow-large: 0 2px 8px hsl(240 3.8% 46.1% / 24%);
+  --sl-shadow-x-large: 0 4px 16px hsl(240 3.8% 46.1% / 24%);
+
+  --sl-color-gray-50: hsl(0 0% 94.5%);
+  --sl-color-gray-100: hsl(240 4.8% 90%);
+  --sl-color-gray-200: hsl(240 5.9% 83%);
+  --sl-color-gray-300: hsl(240 4.9% 76.9%);  
+
+  --sl-color-orange-50: hsl(33.3 100% 91.5%);
+  --sl-color-orange-100: hsl(34.3 100% 86.8%);
+  --sl-color-orange-200: hsl(32.1 97.7% 78.1%);
+  --sl-color-orange-300: hsl(30.7 97.2% 72.4%);
+
+  --sl-color-red-50: hsl(0 85.7% 94.3%);
+  --sl-color-red-100: hsl(0 93.3% 91.1%);
+  --sl-color-red-200: hsl(0 96.3% 86.4%);
+  --sl-color-red-300: hsl(0 93.5% 78.8%);
+  --sl-color-red-400: hsl(0 90.6% 70.8%);
+
+  --sl-color-amber-50: hsl(48 100% 89.1%);
+  --sl-color-amber-100: hsl(48 96.5% 82.8%);
+  --sl-color-amber-200: hsl(48 96.6% 73.7%);
+
+  --sl-color-yellow-50: hsl(54.5 91.7% 86.3%);
+  --sl-color-yellow-100: hsl(54.9 96.7% 79%);
+  --sl-color-yellow-200: hsl(52.8 98.3% 72.9%);
+
+  --sl-color-lime-50: hsl(78.3 92% 87.1%);
+  --sl-color-lime-100: hsl(79.6 89.1% 83%);
+  --sl-color-lime-200: hsl(80.9 88.5% 76.6%);
+
+  --sl-color-green-50: hsl(138.5 76.5% 92.7%);
+  --sl-color-green-100: hsl(140.6 84.2% 90%);
+  --sl-color-green-200: hsl(141 78.9% 84.1%);
+
+  --sl-color-emerald-50: hsl(151.8 81% 92%);
+  --sl-color-emerald-100: hsl(149.3 80.4% 88%);
+
+  --sl-color-teal-50: hsl(166.2 76.5% 91.7%);
+  --sl-color-teal-100: hsl(167.2 85.5% 88.2%);
+
+  --sl-color-cyan-50: hsl(183.2 100% 91.3%);
+  --sl-color-cyan-100: hsl(185.1 95.9% 87.4%);
+
+  --sl-color-sky-50: hsl(204 100% 94.1%);
+  --sl-color-sky-100: hsl(204 93.8% 90.7%);
+
+  --sl-color-blue-50: hsl(213.8 100% 93.3%);
+  --sl-color-blue-100: hsl(214.3 94.6% 91.7%);
+  --sl-color-blue-200: hsl(213.3 96.9% 86.3%);
+
+  --sl-color-indigo-50: hsl(225.9 100% 94.5%);
+  --sl-color-indigo-100: hsl(226.5 100% 92.9%);
+
+  --sl-color-violet-50: hsl(250 100% 95.5%);
+  --sl-color-violet-100: hsl(251.4 91.3% 93.5%);
+  --sl-color-violet-200: hsl(250.5 95.2% 90.8%);
+
+  --sl-color-purple-50: hsl(270 100% 95.5%);
+  --sl-color-purple-100: hsl(268.7 100% 92.5%);
+  --sl-color-purple-200: hsl(268.6 100% 90.8%);
+
+  --sl-color-fuchsia-50: hsl(289.1 100% 95%);
+  --sl-color-fuchsia-100: hsl(287 100% 92.5%);
+  --sl-color-fuchsia-200: hsl(288.3 95.8% 89.6%);
+
+  --sl-color-pink-50: hsl(327.3 73.3% 94.1%);
+  --sl-color-pink-100: hsl(325.7 77.8% 91.7%);
+  --sl-color-pink-200: hsl(325.9 84.6% 88.8%);
+
+  --sl-color-rose-50: hsl(355.7 100% 94.5%);
+  --sl-color-rose-100: hsl(355.6 100% 93%);
+}
+
+:root, .sl-theme-dark, .sl-theme-light {
+  --root-font-size: 16px;
+  
+  --sl-font-sans: 'Nunito Sans';
+  --sl-font-serif: 'Lora';
+  --sl-font-mono: 'Inconsolata';
+  --sl-font-weight-light: 300;
+  --sl-font-weight-normal: 400;
+  --sl-font-weight-semibold: 500;
+  --sl-font-weight-bold: 700;
+
+  --sl-line-height-denser: 1;
+  --sl-line-height-dense: 1.2;
+  --sl-line-height-normal: 1.4;
+  --sl-line-height-loose: 1.8;
+  --sl-line-height-looser: 2.4;  
+}
+
+body {
+  margin: 0;
+  font-family: var(--sl-font-sans);
+  font-weight: var(--sl-font-weight-normal);
+  letter-spacing: var(--sl-letter-spacing-normal);
+  background-color: var(--sl-color-neutral-0);
+  color: var(--sl-color-neutral-800);
+  line-height: var(--sl-line-height-normal);  
+}
+
+/* The default box behavior */
+form, .box, .markdown {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+.cover {
+  position: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 10000;
+}
+
+.box-list {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+/* Without an immediate relative parent, absolute-positioned hidden
+   checkbox elements render at random coordinates on the screen. */
+sl-checkbox, sl-radio-group {
+  position: relative;
+}
+
+
+/* The invisible 'root' containers in these components by default
+   expand to full width in vertical flex containers, even though the
+   base container is not full-width. */
+sl-dropdown, sl-avatar, sl-tooltip, sl-radio-group {
+  display: flex;
+  width: fit-content;
+  height: fit-content;
+}
+
+/* spinners behave badly as children of flexboxes with their default
+   display value */
+sl-spinner {
+  display: unset;
+}
+
+/* Markdown overrides: */
+
+.codehilite {
+  position: relative;
+  height: 100%;
+}
+
+.has-code {
+  margin: 0;
+  position: relative;
+  padding: 0.8rem 1rem;
+  border-radius: var(--sl-border-radius-large);
+  background-color: var(--sl-color-neutral-50);
+  overflow-x: auto;
+  flex-grow: 1;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.has-code code {
+  font-family: var(--sl-font-mono);
+  margin: 0;
+}
+
+.copybutton {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  color: var(--sl-color-neutral-400);
+}
+
+.copybutton:hover {
+  color: var(--sl-color-neutral-500);
+  cursor: pointer;
+}
+
+.markdown p code, .markdown ul code, .markdown ol code {
+  border-radius: var(--sl-border-radius-medium);
+  background-color: var(--sl-color-neutral-50);
+  font-family: var(--sl-font-mono);
+  padding: 2px 5px;
+}
+
+.markdown hr {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 1px solid var(--sl-color-gray-200);
+  width: 100%;
+  margin: 0;
+}
+
+h1, h2, h3, h4, h5, p, ul, ol, li {
+  margin: 0;
+}
+
+.markdown table {
+  border: 1px solid var(--sl-color-gray-200);  
+  border-collapse: collapse;
+}
+
+.markdown td, .markdown th {
+  padding: 6px 8px 6px 8px;
+  line-height: 1em;
+  border: 1px solid var(--sl-color-gray-200);
+}
+
+.markdown th {
+  background: var(--sl-color-gray-50);
+}
+
+.markdown table th {
+  text-align: left;
+}
+
+.markdown blockquote {
+  display: flex;
+  flex-direction: column;
+  gap: var(--text-gap);
+  margin: 0;
+  border-left: 5px solid var(--sl-color-gray-200);
+  margin-left: 0;
+  padding-left: 16px;
+}
+
+.sl-theme-light .markdown blockquote {
+  color: var(--sl-color-neutral-500);
+}
+
+.sl-theme-dark .markdown blockquote {
+  color: var(--sl-color-neutral-600);
+}
+
+
+.markdown a {
+  color: var(--sl-color-blue-600);
+  text-decoration: none;
+}
+
+hyperdiv-plugin {
+  overflow: hidden;
+}
