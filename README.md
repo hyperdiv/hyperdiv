@@ -8,7 +8,7 @@ Click this image to watch the coding demo video:
 
 <p align="center">
   <a href="https://www.youtube.com/watch?v=4XJKfxaqvGE" target="_blank">
-    <img width="700" alt="video-image" src="https://github.com/hyperdiv/hyperdiv/assets/5980501/8b1108f4-44d9-4053-9a27-c57898c94f8f">
+    <img width="700" alt="video-image" src="https://github.com/hyperdiv/hyperdiv/assets/5980501/d5fafeee-c3a6-400c-b70b-fbec93dbf2e4">
   </a>
 </p>
 
