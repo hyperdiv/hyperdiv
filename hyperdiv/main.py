@@ -11,7 +11,7 @@ from .index_page import index_page as create_index_page
 from .debug import PRODUCTION_LOCAL
 
 
-def find_open_port(start=8888):
+def find_open_port(start=8988):
     for port in range(start, 65536):
         try:
             sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
