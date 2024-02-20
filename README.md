@@ -28,7 +28,7 @@ Install Hyperdiv from PyPI:
 pip install hyperdiv
 ```
 
-Hyperdiv requires Pythoon 3.9+ and has been tested on macOS and Linux.
+Hyperdiv requires Python 3.9+ and has been tested on macOS and Linux.
 
 ## Documentation
 
