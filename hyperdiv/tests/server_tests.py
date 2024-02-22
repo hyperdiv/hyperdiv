@@ -46,10 +46,10 @@ class MockServer:
             os.environ["HD_DEBUG"] = self.prev_debug
 
     def open_websocket(self):
-        return websocket.create_connection(f"ws://localhost:{self.port}/ws")
+        return websocket.create_connection(f"ws://{os.environ.get('HD_HOST', 'localhost')}:{self.port}/ws")
 
     def request_path(self, path):
-        return requests.get(f"http://localhost:{self.port}{path}").text
+        return requests.get(f"http://{os.environ.get('HD_HOST', 'localhost')}:{self.port}{path}").text
 
 
 def checkbox_app():
