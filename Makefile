@@ -1,7 +1,7 @@
 all: hyperdiv/public hyperdiv/docs
 
 hyperdiv/docs:
-	cd ../hyperdiv-docs && python -c 'from hyperdiv_docs.extractor import main; main.create_json_file()'
+	cd ../hyperdiv-docs && python -c 'from hyperdiv_docs import docs_metadata; docs_metadata.create_docs_metadata()'
 	rsync -av --exclude='__pycache__' --exclude='.*' --exclude='*.pyc' --exclude='.mypy_cache' ../hyperdiv-docs hyperdiv
 
 hyperdiv/public: frontend/public/build
