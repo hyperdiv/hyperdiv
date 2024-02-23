@@ -28,10 +28,10 @@ class Server:
         self.stopping = False
 
     def listen(self):
-        self.server.listen(self.port)
+        self.server.listen(self.port, address=os.environ.get("HD_HOST", "localhost"))
 
     def start(self):
-        print(f"Running at http://localhost:{self.port}", file=sys.stderr)
+        print(f"Running at http://{os.environ.get('HD_HOST', 'localhost')}:{self.port}", file=sys.stderr)
         print("Ctrl-C to exit", file=sys.stderr)
 
         signal.signal(signal.SIGINT, self.stop)

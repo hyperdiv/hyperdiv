@@ -28,7 +28,7 @@ def is_port_open(port):
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.settimeout(0.1)
     try:
-        sock.connect(("localhost", port))
+        sock.connect((os.environ.get("HD_HOST", "localhost"), port))
     except (socket.timeout, ConnectionRefusedError):
         return False
     finally:
@@ -64,7 +64,7 @@ def wait_for_port(port):
 def open_browser(port):
     def run():
         wait_for_port(port)
-        webbrowser.open(f"http://localhost:{port}")
+        webbrowser.open(f"http://{os.environ.get('HD_HOST', 'localhost')}:{port}")
 
     thread = threading.Thread(target=run)
     thread.start()
