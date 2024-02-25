@@ -15,15 +15,14 @@ from .common.text_utils import concat_text
 def mistune_renderer():
     class HighlightRenderer(mistune.HTMLRenderer):
         def block_code(self, code, info=None):
-            if info:
-                try:
-                    lexer = get_lexer_by_name(info.strip(), stripall=True)
-                except Exception:
-                    lexer = TextLexer()
-                formatter = html.HtmlFormatter(cssclass="codehilite", wrapcode=True)
-                code = highlight(code, lexer, formatter)
-                return code
-            return "<pre><code>" + mistune.escape(code) + "</code></pre>"
+            if not info:
+                info = "text"
+            try:
+                lexer = get_lexer_by_name(info.strip())
+            except Exception:
+                lexer = TextLexer()
+            formatter = html.HtmlFormatter(cssclass="codehilite", wrapcode=True)
+            return highlight(code, lexer, formatter)
 
     return mistune.create_markdown(
         renderer=HighlightRenderer(escape=False),
