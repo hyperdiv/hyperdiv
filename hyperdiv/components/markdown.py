@@ -17,13 +17,17 @@ def mistune_renderer():
         def block_code(self, code, info=None):
             if info:
                 try:
-                    lexer = get_lexer_by_name(info.strip(), stripall=True)
+                    lexer = get_lexer_by_name(info.strip())
                 except Exception:
                     lexer = TextLexer()
                 formatter = html.HtmlFormatter(cssclass="codehilite", wrapcode=True)
                 code = highlight(code, lexer, formatter)
                 return code
-            return "<pre><code>" + mistune.escape(code) + "</code></pre>"
+            return (
+                '<div class="codehilite"><pre><code>'
+                + mistune.escape(code)
+                + "</code></pre></div>"
+            )
 
     return mistune.create_markdown(
         renderer=HighlightRenderer(escape=False),
