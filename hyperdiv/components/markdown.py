@@ -26,7 +26,7 @@ def mistune_renderer():
 
     return mistune.create_markdown(
         renderer=HighlightRenderer(escape=False),
-        plugins=["strikethrough", "abbr", "table", "url", "task_lists"],
+        plugins=["strikethrough", "abbr", "table", "url", "task_lists", "math"],
     )
 
 
