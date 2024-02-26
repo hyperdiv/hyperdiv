@@ -1,5 +1,6 @@
 from .frame import StateAccessFrame
 from .prop_types import Event, CSS
+from .equalities import equalities
 
 
 def to_caml_case(name):
@@ -120,16 +121,33 @@ class StoredProp:
     def render(self):
         return self.prop_type.render(self.value)
 
+    def value_changed(self, old, new):
+        try:
+            return bool(old != new)
+        except Exception as e:
+            if type(old) is not type(new):
+                return True
+            if type(old) in equalities:
+                return not equalities[type(old)](old, new)
+            else:
+                for typ in equalities.keys():
+                    if issubclass(type(old), typ):
+                        equals = equalities[typ]
+                        equalities[type(old)] = equals
+                        return not equals(old, new)
+
+            raise ValueError(f"Comparison of values of type {type(old)} failed: {e}")
+
     def update(self, value):
         self.mutated = True
         parsed = self.parse(value)
-        updated = self.value != parsed
+        updated = self.value_changed(self.value, parsed)
         self.value = parsed
         return updated
 
     def reset(self):
         # Reset the prop to the latest init value.
-        updated = self.value != self.init_value
+        updated = self.value_changed(self.value, self.init_value)
         self.value = self.init_value
         self.mutated = False
         return updated

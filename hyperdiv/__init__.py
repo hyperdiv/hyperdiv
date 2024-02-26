@@ -2,6 +2,7 @@ from .main import run
 from .debug import logger
 from .cache import cached
 from .index_page import index_page
+from .equalities import register_equality
 from .design_tokens import (
     Spacing,
     Shadow,
