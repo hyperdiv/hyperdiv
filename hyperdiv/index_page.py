@@ -130,6 +130,9 @@ def index_page_template(
             <script defer src="/build/bundle.js?v={js_hash}"></script>
             <script>
               window.MathJax = {{
+                options: {{
+                  enableMenu: false,
+                }},
                 tex: {{
                   inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],
                 }},
