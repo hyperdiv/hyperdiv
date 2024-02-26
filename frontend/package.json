@@ -34,6 +34,7 @@
     "chartjs-adapter-date-fns": "^3.0.0",
     "date-fns": "^2.30.0",
     "debounce": "^1.2.1",
+    "mathjax": "^3.2.2",
     "sirv-cli": "^2.0.2"
   }
 }
