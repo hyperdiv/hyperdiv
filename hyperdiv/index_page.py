@@ -109,6 +109,13 @@ def index_page_template(
     js_bundle_path = os.path.join(public_path, "build", "bundle.js")
     js_hash = xxhash.xxh32(str(int(os.path.getmtime(js_bundle_path)))).hexdigest()
 
+    mathjax_bundle_path = os.path.join(
+        public_path, "build", "mathjax", "es5", "tex-chtml.js"
+    )
+    mathjax_hash = xxhash.xxh32(
+        str(int(os.path.getmtime(mathjax_bundle_path)))
+    ).hexdigest()
+
     prefix = """
         <!DOCTYPE html>
         <html lang="en">
@@ -121,6 +128,14 @@ def index_page_template(
             <style id="hyperdiv-styles">{{{{style}}}}</style>
             <link rel="stylesheet" href="/build/bundle.css?v={css_hash}" />
             <script defer src="/build/bundle.js?v={js_hash}"></script>
+            <script>
+              window.MathJax = {{
+                tex: {{
+                  inlineMath: [['$', '$'], ['\\\\(', '\\\\)']],
+                }},
+              }};
+            </script>
+            <script async src="/build/mathjax/es5/tex-chtml.js?v={mathjax_hash}"></script>
           </head>
           <body>{{{{body}}}}</body>
         </html>
