@@ -69,6 +69,10 @@ export class Markdown extends HtmlComponent {
           pre.classList.add("has-code");
         }
       });
+      const mathElems = elem.querySelectorAll(".math");
+      if (mathElems.length > 0) {
+        setTimeout(() => window.MathJax.typeset([mathElems]));
+      }
     } else {
       super.updateProp(elem, name, propName, propValue);
     }
