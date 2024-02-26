@@ -64,6 +64,10 @@ export default {
           ),
           dest: path.resolve(__dirname, "public/build/shoelace"),
         },
+        {
+          src: path.resolve(__dirname, "node_modules/mathjax/es5"),
+          dest: path.resolve(__dirname, "public/build/mathjax"),
+        },
       ],
     }),
     // In dev mode, call `npm run start` once
