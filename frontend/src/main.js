@@ -252,6 +252,7 @@ websocket.on("message", (message) => {
   if (message.diff) {
     applyDiff(message.diff);
   } else if (message.dom) {
+    window.MathJax.typesetClear();
     setRootDom(message.dom);
   }
 
