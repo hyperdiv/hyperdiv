@@ -999,7 +999,7 @@ icon_names = [
     "filetype-scss",
     "filetype-sh",
     "filetype-sql",
-    "filetype.svg",
+    "filetype-svg",
     "filetype-tiff",
     "filetype-tsx",
     "filetype-ttf",
