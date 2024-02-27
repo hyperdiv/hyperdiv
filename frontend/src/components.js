@@ -36,6 +36,8 @@ import { Switch } from "./components/switch.js";
 import { Tab } from "./components/tab.js";
 import { TabGroup } from "./components/tab-group.js";
 import { Tag } from "./components/tag.js";
+import { TreeItem } from "./components/tree-item.js";
+import { Tree } from "./components/tree.js";
 
 const mapping = {
   alert: Alert,
@@ -71,6 +73,8 @@ const mapping = {
   text_input: TextInput,
   textarea: Textarea,
   tooltip: Tooltip,
+  tree_item: TreeItem,
+  tree: Tree,
 };
 
 export const getComponentLogic = (name, tag) => {
