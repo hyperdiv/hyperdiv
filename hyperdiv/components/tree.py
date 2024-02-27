@@ -28,9 +28,9 @@ class tree(Component, Styled):
 
     ## Selected Items
 
-    The nodes of the tree are selected when clicked with the
-    mouse. Selection can be customized to select multiple nodes, a
-    single node, or a single leaf.
+    The nodes of the tree can be selected with the mouse or keyboard.
+    Selection can be customized to select multiple nodes, a single
+    node, or a single leaf.
 
     You can use the `selected_items` method to get the currently
     selected @component(tree_item) sub-nodes.
