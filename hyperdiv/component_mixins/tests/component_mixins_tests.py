@@ -17,7 +17,7 @@ def test_scroll():
     assert Scroll.parse(False) is False
 
     assert Scroll.render(None) is None
-    assert Scroll.render(True) == "scroll"
+    assert Scroll.render(True) == "auto"
     assert Scroll.render(False) == "hidden"
 
     with pytest.raises(Exception):
