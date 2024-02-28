@@ -1,5 +1,6 @@
 from ...test_utils import mock_frame, MockRunner
-from ..audio import audio, media_source
+from ..audio import audio
+from ..media_source import media_source
 from ..button import button
 
 

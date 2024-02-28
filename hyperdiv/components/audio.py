@@ -1,22 +1,9 @@
-from ..component_base import Component
-from ..component_mixins.styled import Styled
-from ..prop import Prop
-from ..prop_types import Bool, PureString, ClampedFloat
+from .common.media_base import MediaBase
 
 
-class media_source(Component):
+class audio(MediaBase):
     """
-    A media source.
-    """
-
-    _tag = "source"
-
-    # A local or remote path to an audio file.
-    src = Prop(PureString, "")
-
-
-class audio(Component, Styled):
-    """A simple component for playing audio files in the browser. The
+    A simple component for playing audio files in the browser. The
     look & feel of the component is currently browser-dependent.
 
     ```py
@@ -35,7 +22,7 @@ class audio(Component, Styled):
 
     if audio.playing:
         if hd.button(
-            "Stop",
+            "Pause",
             prefix_icon="pause",
             font_color="red"
         ).clicked:
@@ -62,34 +49,3 @@ class audio(Component, Styled):
     """
 
     _tag = "audio"
-
-    # Whether to show the built-in browser controls.
-    controls = Prop(Bool, True)
-    # Whether the volume is muted.
-    muted = Prop(Bool, False)
-    # The percent level of the volume control.
-    volume = Prop(ClampedFloat(0, 1), 1)
-    # Whether the audio should play repeatedly.
-    loop = Prop(Bool, False)
-    # Whether the audio is currently playing.
-    playing = Prop(Bool, False)
-
-    def __init__(self, src=None, **kwargs):
-        """
-        `src` is a local or remote path to an audio file.
-
-        If `src` is provided, an @component(media_source) will
-        automatically be created.
-        """
-        super().__init__(**kwargs)
-        if src:
-            with self:
-                media_source(src=src)
-
-    def play(self):
-        """Start playback."""
-        self.playing = True
-
-    def pause(self):
-        """Pause playback."""
-        self.playing = False

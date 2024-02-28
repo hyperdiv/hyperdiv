@@ -41,3 +41,15 @@ export class Audio extends HtmlComponent {
     }
   }
 }
+
+export class Video extends Audio {
+  static updateProp(elem, name, propName, propValue) {
+    if (propName === "width" || propName === "height") {
+      if (propValue !== null) {
+        elem.setAttribute(propName, propValue);
+      }
+    } else {
+      super.updateProp(elem, name, propName, propValue);
+    }
+  }
+}

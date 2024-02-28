@@ -38,7 +38,7 @@ import { TabGroup } from "./components/tab-group.js";
 import { Tag } from "./components/tag.js";
 import { TreeItem } from "./components/tree-item.js";
 import { Tree } from "./components/tree.js";
-import { Audio } from "./components/audio.js";
+import { Audio, Video } from "./components/media.js";
 
 const mapping = {
   alert: Alert,
@@ -77,6 +77,7 @@ const mapping = {
   tree_item: TreeItem,
   tree: Tree,
   audio: Audio,
+  video: Video,
 };
 
 export const getComponentLogic = (name, tag) => {
