@@ -1,3 +1,4 @@
+import debounce from "debounce";
 import { EventHandler } from "./common-handlers.js";
 import { websocket } from "../websocket.js";
 import { HtmlComponent } from "./core.js";
@@ -12,9 +13,20 @@ const onPause = new EventHandler("pause", (key, evt) => {
   websocket.sendUpdate([key, "playing", false]);
 });
 
+const onVolumeChange = new EventHandler(
+  "volumechange",
+  debounce((key, evt) => {
+    evt.stopPropagation();
+    websocket.sendUpdate(
+      [key, "volume", evt.target.volume],
+      [key, "muted", evt.target.muted]
+    );
+  }, 50)
+);
+
 export class Audio extends HtmlComponent {
   static eventHandlers() {
-    return [onPlay, onPause];
+    return [onPlay, onPause, onVolumeChange];
   }
 
   static updateProp(elem, name, propName, propValue) {
