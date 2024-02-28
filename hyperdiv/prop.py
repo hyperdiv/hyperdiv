@@ -129,12 +129,6 @@ class StoredProp:
                 return True
             if type(old) in equalities:
                 return not equalities[type(old)](old, new)
-            else:
-                for typ in equalities.keys():
-                    if issubclass(type(old), typ):
-                        equals = equalities[typ]
-                        equalities[type(old)] = equals
-                        return not equals(old, new)
 
             raise ValueError(f"Comparison of values of type {type(old)} failed: {e}")
 
