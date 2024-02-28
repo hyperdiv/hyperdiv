@@ -22,5 +22,7 @@ class icon_button(icon, Interactive):
 
     base_style = Prop(BasePart())
 
-    def __init__(self, name="emoji-laughing-fill", padding=0, **kwargs):
-        super().__init__(name=name, padding=padding, **kwargs)
+    def __init__(
+        self, name="emoji-laughing-fill", width="fit-content", padding=0, **kwargs
+    ):
+        super().__init__(name=name, padding=padding, width=width, **kwargs)
