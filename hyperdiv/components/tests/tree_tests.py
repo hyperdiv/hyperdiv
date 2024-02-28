@@ -64,7 +64,6 @@ def test_selected_and_expanded():
     with MockRunner(my_app) as mr:
         assert selected == []
 
-        # This submit will fail since required fields are not filled in
         mr.process_updates([(key, "_selected_keys", [one_key])])
 
         assert selected == [one_key]
