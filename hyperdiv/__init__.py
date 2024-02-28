@@ -131,4 +131,6 @@ from .components.animation import animation, keyframe
 from .components.async_command import async_command
 from .components.tree_item import tree_item
 from .components.tree import tree
-from .components.audio import audio, media_source
+from .components.audio import audio
+from .components.video import video
+from .components.media_source import media_source
