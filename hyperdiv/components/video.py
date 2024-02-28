@@ -5,6 +5,9 @@ from ..prop_types import ClampedInt, Optional
 
 class video(MediaBase):
     """
+    A simple component for playing video files in the browser. The
+    look & feel of the component is currently browser-dependent.
+
     ```py
     src = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4"
 
