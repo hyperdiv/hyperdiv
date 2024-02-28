@@ -10,5 +10,5 @@ class media_source(Component):
 
     _tag = "source"
 
-    # A local or remote path to an audio file.
+    # A local or remote path to an audio or video file.
     src = Prop(PureString, "")
