@@ -55,7 +55,7 @@ class ScrollDef(Optional):
     def render(self, value):
         if value is None:
             return None
-        return "scroll" if value else "hidden"
+        return "auto" if value else "hidden"
 
     def __repr__(self):
         return "Scroll"
