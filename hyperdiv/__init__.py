@@ -130,3 +130,4 @@ from .components.animation import animation, keyframe
 from .components.async_command import async_command
 from .components.tree_item import tree_item
 from .components.tree import tree
+from .components.audio import audio, media_source
