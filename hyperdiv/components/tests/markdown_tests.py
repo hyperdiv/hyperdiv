@@ -44,4 +44,4 @@ def test_no_lexer():
         ```
         """
     )
-    assert m.render()["props"]["content"].startswith("<pre><code>")
+    assert m.render()["props"]["content"].startswith('<div class="codehilite"')

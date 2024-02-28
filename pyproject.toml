@@ -1,10 +1,19 @@
 [tool.poetry]
 name = "hyperdiv"
-version = "0.1.1"
+version = "0.1.2"
 description = "Build reactive web UIs in pure Python"
 authors = ["Marius Nita <m@mariusnita.com>"]
 license = "Apache-2.0"
 readme = "README.md"
+keywords = ["hyperdiv", "reactive", "ui", "web", "framework"]
+classifiers = [
+    "Intended Audience :: Developers",
+    "Environment :: Web Environment",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python",
+    "Topic :: Software Development :: Libraries :: Application Frameworks",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+]
 
 [tool.poetry.dependencies]
 python = "^3.9"

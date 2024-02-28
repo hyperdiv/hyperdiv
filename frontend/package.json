@@ -1,6 +1,6 @@
 {
   "name": "hyperdiv",
-  "version": "1.0.0",
+  "version": "0.1.2",
   "private": true,
   "scripts": {
     "build": "rollup -c",
