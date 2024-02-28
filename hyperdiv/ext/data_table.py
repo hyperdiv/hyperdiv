@@ -141,6 +141,7 @@ class data_table(box):
         show_pagination=True,
         row_actions=None,
         show_select_column=False,
+        vertical_scroll=False,
         **kwargs,
     ):
         """
@@ -228,7 +229,7 @@ class data_table(box):
         if self.state.page > self.num_pages:
             self.state.page = max(self.num_pages, 1)
 
-        super().__init__(**kwargs)
+        super().__init__(vertical_scroll=vertical_scroll, **kwargs)
 
         with self:
             # Render a 'No Data' box if there is no data to render.
