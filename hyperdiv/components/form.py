@@ -307,6 +307,14 @@ class form(box):
         return submitted and self.is_valid
 
     @property
+    def being_submitted(self):
+        """
+        Returns `True` if a submit request is currently being processed,
+        and `False` otherwise.
+        """
+        return self._being_submitted
+
+    @property
     def submit_failed(self):
         """
         Returns `True` if the form was submitted and some of the
@@ -524,6 +532,15 @@ class form(box):
         reset_button = button(*label, disabled=disabled, **kwargs)
         if reset_button.clicked:
             self.reset()
+
+    def submit(self):
+        """
+        A way to programmatically submit the form.
+        """
+        if self._being_submitted:
+            logger.warn("A submit request is already being processed.")
+            return
+        self.trigger_event("_submit_clicked", True)
 
     def reset(self):
         """
