@@ -18,7 +18,7 @@ def index_page(
     url=None,
     image=None,
     twitter_card_type="summary_large_image",
-    favicon=None,
+    favicon="/hd-logo-white.svg",
     favicon_16=None,
     favicon_32=None,
     apple_touch_icon=None,
