@@ -3,6 +3,10 @@ html {
   font-size: var(--root-font-size);
 }
 
+sl-popup::part(popup) {
+  z-index: var(--sl-z-index-dropdown);
+}
+
 .disconnected-cover {
   position: fixed;
   top: 0;
