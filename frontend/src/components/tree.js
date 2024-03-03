@@ -7,7 +7,10 @@ const onSelectionChange = new EventHandler(
   (key, evt) => {
     evt.stopPropagation();
     const selectedKeys = evt.detail.selection.map((elem) => elem.id);
-    websocket.sendUpdate([key, "_selected_keys", selectedKeys]);
+    websocket.sendUpdate(
+      [key, "_selected_keys", selectedKeys],
+      [key, "selection_changed", true]
+    );
   }
 );
 

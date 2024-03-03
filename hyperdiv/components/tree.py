@@ -1,6 +1,6 @@
 from ..slot import Slot
 from ..prop import Prop
-from ..prop_types import OneOf, List, PureString, Size, Color, CSSField
+from ..prop_types import OneOf, List, PureString, Size, Color, CSSField, BoolEvent
 from ..component_mixins import Styled
 from ..component_base import Component
 from ..style_part import BasePart
@@ -35,6 +35,9 @@ class tree(Component, Styled):
     You can use the `selected_items` method to get the currently
     selected @component(tree_item) sub-nodes.
 
+    You can also use the `selection_changed` event prop to do
+    something when the selection changes.
+
     ```py
     selection = hd.radio_buttons(
         "single", "multiple", "leaf",
@@ -57,7 +60,12 @@ class tree(Component, Styled):
         hd.tree_item("Four")
         hd.tree_item("Five")
 
-    hd.text([item.label for item in tree.selected_items])
+    hd.text("Selected:", [item.label for item in tree.selected_items])
+
+    alert = hd.alert("The selection changed!", duration=1000)
+
+    if tree.selection_changed:
+        alert.opened = True
 
     """
 
@@ -71,6 +79,8 @@ class tree(Component, Styled):
     # * `multiple`: Multiple nodes can be selected. When selecting an
     #   intermediate node, its entire subtree is selected.
     selection = Prop(OneOf("single", "multiple", "leaf"), "single")
+    # `True` for one run when the selection changes.
+    selection_changed = Prop(BoolEvent, False)
     _selected_keys = Prop(List(PureString), ())
 
     # How far nested children are indented.
