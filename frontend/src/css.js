@@ -13,9 +13,18 @@ function findHyperdivStyleSheet() {
   return null;
 }
 
-const styleSheet = findHyperdivStyleSheet();
+let cachedStyleSheet = null;
+
+function getStyleSheet() {
+  if (!cachedStyleSheet) {
+    cachedStyleSheet = findHyperdivStyleSheet();
+  }
+  return cachedStyleSheet;
+}
 
 function updateSelector(selector, style) {
+  const styleSheet = getStyleSheet();
+
   if (selector in ruleCache) {
     ruleCache[selector].style.cssText = style;
   } else {
@@ -65,6 +74,8 @@ export function updateStyle(key, style) {
 }
 
 function removeSelectors(selectors) {
+  const styleSheet = getStyleSheet();
+
   if (selectors.size === 0) {
     return;
   }
@@ -105,7 +116,9 @@ export function removeStyles(keys) {
 }
 
 export function removeAllStyles() {
+  const styleSheet = getStyleSheet();
   let numStyles = styleSheet.rules.length;
+
   while (numStyles > 0) {
     styleSheet.deleteRule(0);
     numStyles -= 1;
