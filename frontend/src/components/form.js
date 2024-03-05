@@ -1,6 +1,6 @@
 import debounce from "debounce";
 import { websocket } from "../websocket.js";
-import { ShoelaceComponent } from "./core.js";
+import { HtmlComponent } from "./core.js";
 import { EventHandler } from "./common-handlers.js";
 
 const onSubmit = new EventHandler("submit", (key, evt) => {
@@ -13,7 +13,7 @@ const onSubmit = new EventHandler("submit", (key, evt) => {
   }, 200)(key, evt);
 });
 
-export class Form extends ShoelaceComponent {
+export class Form extends HtmlComponent {
   static eventHandlers() {
     return [onSubmit];
   }
