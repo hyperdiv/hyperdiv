@@ -1,4 +1,4 @@
-from ..prop_types import OneOf
+from ..prop_types import OneOf, BoolEvent
 from ..prop import Prop
 from ..ui_singleton import BrowserSingleton
 from .local_storage import local_storage
@@ -30,10 +30,11 @@ class theme(BrowserSingleton):
     # briefly on startup, and is immediately updated to a concrete
     # value before the application runs.
     system_mode = Prop(OneOf(None, "light", "dark"), backend_immutable=True)
-
     # The theme mode. If the mode is set to `"system"`, the theme
     # follows the value of the `system_mode` prop.
-    mode = Prop(OneOf("system", "light", "dark"), "system")
+    mode = Prop(OneOf(None, "system", "light", "dark"))
+    # True for one run when one of the theme props changed.
+    changed = Prop(BoolEvent, False)
 
     def __init__(self):
         super().__init__()

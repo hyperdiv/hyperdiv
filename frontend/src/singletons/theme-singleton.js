@@ -31,7 +31,16 @@ class ThemeSingleton extends EventBus {
     if (userMode === "light" || userMode === "dark") {
       this.props.mode = userMode;
     }
-    this.currentTheme = null;
+    this.updateClass(this.getCurrentMode());
+  }
+
+  getCurrentMode() {
+    if (this.props.mode === "system") {
+      // If `mode` is system, we follow the browser's system
+      // mode. Otherwise we use the user-set `mode`.
+      return this.props.systemMode;
+    }
+    return this.props.mode;
   }
 
   updateClass(theme) {
@@ -48,16 +57,9 @@ class ThemeSingleton extends EventBus {
   setComponent(hdNode) {
     this.props = hdNode.props;
 
-    let theme;
+    this.updateClass(this.getCurrentMode());
 
-    if (this.props.mode === "system") {
-      // If `mode` is system, we follow the browser's system
-      // mode. Otherwise we use the user-set `mode`.
-      theme = this.props.systemMode;
-    } else {
-      theme = this.props.mode;
-    }
-    this.updateClass(theme);
+    websocket.sendUpdate(["theme", "changed", true]);
   }
 
   setSystemMode(systemMode) {
@@ -85,5 +87,9 @@ themeListener((systemMode) => {
   // Update the theme on the frontend immediately.
   themeSingleton.setSystemMode(systemMode);
   // Send the update to the backend.
-  websocket.sendUpdate(...themeSingleton.getUpdates());
+  websocket.sendUpdate(...themeSingleton.getUpdates(), [
+    "theme",
+    "changed",
+    true,
+  ]);
 });
