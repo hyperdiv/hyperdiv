@@ -1,5 +1,5 @@
 import asyncio
-from ..prop_types import Bool, BoolEvent
+from ..prop_types import Bool, BoolEvent, PureString
 from ..prop import Prop
 from ..debug import logger
 from .common.text_utils import concat_text
@@ -263,7 +263,9 @@ class form(box):
 
     _tag = "form"
 
-    _novalidate = Prop(Bool, True, ui_name="novalidate")
+    # Disable frontend validation, since Hyperdiv forms are validated
+    # in Python.
+    _novalidate = Prop(PureString, "", ui_name="novalidate")
 
     # When users click the submit button.
     _submit_clicked = Prop(BoolEvent, False)
@@ -272,7 +274,7 @@ class form(box):
     _async_resubmitted = Prop(BoolEvent, False)
     # When the user clicks submit, this becomes True, and is reset
     # when the form finishes validating.
-    _being_submitted = Prop(Bool, False)
+    _being_submitted = Prop(Bool, False, internal=True)
 
     def __init__(self, disabled=False, gap=1, **kwargs):
         """
