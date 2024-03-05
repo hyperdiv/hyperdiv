@@ -251,7 +251,7 @@ class AppRunner:
         singletons = SingletonCollector.create_ui_singletons()
 
         for singleton in singletons:
-            if root_container or self.ui_prop_state.component_changed(singleton):
+            if self.ui_prop_state.component_changed(singleton):
                 self.ui_prop_state.set_prop_values_from_component(singleton)
                 output.setdefault("singletons", dict())
                 output["singletons"][singleton._name] = singleton.render()
