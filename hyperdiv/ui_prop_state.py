@@ -72,16 +72,21 @@ class UIPropState:
         if isinstance(prop.value, Component):
             return self.component_changed(prop.value)
 
+        if prop.internal:
+            return False
+
         ui_prop_value = self.get_prop_value(prop.key, prop.name)
 
         if ui_prop_value == UIPropState.Unset:
-            return False
+            return True
 
         return ui_prop_value != prop.value
 
     def component_changed(self, component):
         props = self.state.get_props(component._key)
-        changed = False
+
         for prop in props.values():
-            changed = changed or self.prop_changed(prop)
-        return changed
+            if self.prop_changed(prop):
+                return True
+
+        return False
