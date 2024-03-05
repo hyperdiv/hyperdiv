@@ -1,4 +1,4 @@
-from ..prop_types import HyperdivType, String, Optional, PureString
+from ..prop_types import HyperdivType, PureString, String, Optional
 from ..prop import Prop
 from ..ui_singleton import BrowserSingleton
 
@@ -93,13 +93,13 @@ class location(BrowserSingleton):
     # The host part of the browser location bar.
     host = Prop(Optional(PureString), backend_immutable=True)
     # The path part of the browser location bar.
-    path = Prop(PathString, "/")
+    path = Prop(Optional(PathString))
     # The query args part of the browser location bar, not including
     # the leading `?`.
-    query_args = Prop(LocationPart, "")
+    query_args = Prop(Optional(LocationPart))
     # The hash part of the location bar, not including the leading
     # `#`.
-    hash_arg = Prop(LocationPart, "")
+    hash_arg = Prop(Optional(LocationPart))
 
     def go(self, path, query_args="", hash_arg=""):
         """
