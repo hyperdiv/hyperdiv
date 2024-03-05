@@ -144,22 +144,30 @@ class Component(Collector):
     @classmethod
     @cache
     def _get_static_props(cls):
-        props = []
+        props = dict()
         for klass in reversed(cls.__mro__[:-1]):
-            props.extend(
-                [attr for attr in klass.__dict__.values() if isinstance(attr, Prop)]
+            props.update(
+                {
+                    attr.name: attr
+                    for attr in klass.__dict__.values()
+                    if isinstance(attr, Prop)
+                }
             )
-        return props
+        return props.values()
 
     @classmethod
     @cache
     def _get_static_slots(cls):
-        slots = []
+        slots = dict()
         for klass in reversed(cls.__mro__[:-1]):
-            slots.extend(
-                [attr for attr in klass.__dict__.values() if isinstance(attr, Slot)]
+            slots.update(
+                {
+                    attr.name: attr
+                    for attr in klass.__dict__.values()
+                    if isinstance(attr, Slot)
+                }
             )
-        return slots
+        return slots.values()
 
     def _get_stored_props(self):
         return StateAccessFrame.current().get_props(self._key)
