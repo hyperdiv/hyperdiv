@@ -1,12 +1,12 @@
 import { websocket } from "../websocket.js";
 
 class ClipboardSingleton {
+  /* eslint-disable class-methods-use-this */
   setComponent(hdNode) {
     if (hdNode.props.value) {
       navigator.clipboard.writeText(hdNode.props.value);
-      // reset the value back to null
-      websocket.sendUpdate(["clipboard", "_value", null]);
     }
+    websocket.sendUpdate(["clipboard", "_value", "$reset"]);
   }
 
   /* eslint-disable class-methods-use-this */
