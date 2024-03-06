@@ -1,0 +1,70 @@
+name: Build Frontend + Dist
+
+on:
+  push:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+
+jobs:
+  build-public:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        working-directory: ./frontend
+        run: npm install
+
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
+
+      - name: Archive artifact
+        uses: actions/upload-artifact@master
+        with:
+          name: frontend
+          path: frontend/public
+  
+  build-dist:
+    runs-on: ubuntu-latest
+    needs: build-public
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.12
+
+      - name: Install Poetry
+        run: |
+          pip install poetry
+      
+      - name: Download public dir
+        uses: actions/download-artifact@master
+        with:
+          name: frontend
+          path: frontend/public
+
+      - name: Cp public dir
+        run: cp frontend/public -r hyperdiv/
+
+      - name: Build and Publish Package
+        run: poetry build
+      
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: hyperdiv-dist
+          path: dist/
+
