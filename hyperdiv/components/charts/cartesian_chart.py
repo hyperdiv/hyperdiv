@@ -19,6 +19,8 @@ def cartesian_chart(
     x_axis="linear",
     y_axis="linear",
     hide_legend=False,
+    hide_y_tick_labels=False,
+    hide_x_tick_labels=False,
     **kwargs,
 ):
     """
@@ -50,6 +52,8 @@ def cartesian_chart(
     * `hide_legend`: Hides the clickable legend at the top of the
       chart. This legend is rendered automatically when `labels` is
       specified, unless this parameter is set to `False`.
+    * `hide_x_tick_labels`: Hides the tick labels on the x-axis. Tick labels are shown by default.
+    * `hide_y_tick_labels`: As above, but for the y-axis.
     * `**kwargs`: Component style and slot props that are passed
       upward to @component(chart).
 
@@ -132,6 +136,19 @@ def cartesian_chart(
     hd.line_chart(
         ((now, 20), (now+(2 * day), 100), (now+(18 * day), 80)),
         x_axis="timeseries",
+    )
+    ```
+
+    ## Scale and Ticks
+    You can choose to hide the tick labels on the X and Y axes using the 
+    `hide_x_tick_labels` and `hide_y_tick_labels` parameters
+    respectively.
+
+    ```py
+    hd.line_chart(
+        (2, 4, 10),
+        hide_x_tick_labels=True,
+        hide_y_tick_labels=True
     )
     ```
 
@@ -348,6 +365,9 @@ def cartesian_chart(
 
     x_axis_config["grid"] = dict(color=grid_color)
     y_axis_config["grid"] = dict(color=grid_color)
+
+    x_axis_config["ticks"] = dict(display=not hide_x_tick_labels)
+    y_axis_config["ticks"] = dict(display=not hide_y_tick_labels)
 
     # Hide the legend if (a) there are no dataset labels specified, or
     # (b) `hide_legend` is True.
