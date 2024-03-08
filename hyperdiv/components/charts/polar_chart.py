@@ -9,6 +9,7 @@ def polar_chart(
     colors=None,
     grid_color="neutral-100",
     hide_legend=False,
+    show_tick_labels=True,
     **kwargs,
 ):
     """
@@ -39,6 +40,16 @@ def polar_chart(
     )
     ```
 
+    You can show or hide the tick labels using the `show_tick_labels` parameter. They are shown by default.
+    ```py
+    hd.polar_chart(
+        (4, 6, 4, 8, 2),
+        colors=("red-200", "orange-200", "blue-100", "green-300", "yellow"),
+        labels=("Oats", "Milk", "Cheese", "Garlic", "Onions"),
+        show_tick_labels=False
+    )
+    ```
+
     """
     grid_color = Color.render(Color.parse(grid_color))
 
@@ -46,7 +57,7 @@ def polar_chart(
     config["options"]["scales"] = dict(
         r=dict(
             grid=dict(color=grid_color),
-            ticks=dict(showLabelBackdrop=False),
+            ticks=dict(showLabelBackdrop=False, display=show_tick_labels),
         ),
     )
 

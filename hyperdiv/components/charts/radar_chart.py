@@ -10,6 +10,7 @@ def radar_chart(
     colors=None,
     grid_color="neutral-100",
     hide_legend=False,
+    show_tick_labels=True,
     **kwargs,
 ):
     """A radar chart component.
@@ -50,6 +51,18 @@ def radar_chart(
         hide_legend=True,
     )
     ```
+    You can show or hide the tick labels using the `show_tick_labels` parameter. They are shown by default.
+    ```py
+    hd.radar_chart(
+        (1, 4, 2, 4),
+        (8, 6, 4, 8),
+        labels=("Jim", "Alice"),
+        colors=("fuchsia", "yellow"),
+        axis=("Commits", "PRs", "Issues", "Discussions"),
+        show_tick_labels=False
+    )
+    ```
+
 
     """
     if not datasets:
@@ -90,7 +103,7 @@ def radar_chart(
                 scales=dict(
                     r=dict(
                         grid=dict(color=grid_color),
-                        ticks=dict(showLabelBackdrop=False),
+                        ticks=dict(showLabelBackdrop=False, display=show_tick_labels),
                     ),
                 ),
             ),
