@@ -225,8 +225,8 @@ def test_polar_chart():
 
         c = polar_chart((1, 2, 3), labels=("A", "B", "C"), show_tick_labels=False, r_min=-10, r_max=10)
         assert c.config["options"]["scales"]["r"]["ticks"]["display"] is False
-        assert c.config["options"]["scales"]["r"]["ticks"]["suggestedMin"] == -10
-        assert c.config["options"]["scales"]["r"]["ticks"]["suggestedMax"] == 10
+        assert c.config["options"]["scales"]["r"]["suggestedMin"] == -10
+        assert c.config["options"]["scales"]["r"]["suggestedMax"] == 10
 
 
 @mock_frame
@@ -247,8 +247,8 @@ def test_radar_chart():
             r_max=10
         )
         assert c.config["options"]["scales"]["r"]["ticks"]["display"] is False
-        assert c.config["options"]["scales"]["r"]["ticks"]["suggestedMin"] == -10
-        assert c.config["options"]["scales"]["r"]["ticks"]["suggestedMax"] == 10
+        assert c.config["options"]["scales"]["r"]["suggestedMin"] == -10
+        assert c.config["options"]["scales"]["r"]["suggestedMax"] == 10
 
 def test_color_wraparound():
     gen = auto_color_generator()

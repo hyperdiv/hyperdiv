@@ -59,11 +59,11 @@ def polar_chart(
     config["options"]["scales"] = dict(
         r=dict(
             grid=dict(color=grid_color),
+            suggestedMin=r_min,
+            suggestedMax=r_max,
             ticks=dict(
                 showLabelBackdrop=False, 
                 display=show_tick_labels,
-                suggestedMin=r_min,
-                suggestedMax=r_max,
             ),
         ),
     )
