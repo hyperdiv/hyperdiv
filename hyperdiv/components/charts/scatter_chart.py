@@ -11,6 +11,8 @@ def scatter_chart(
     hide_legend=False,
     show_x_tick_labels=True,
     show_y_tick_labels=True,
+    y_min=None,
+    y_max=None,
     **kwargs,
 ):
     """
@@ -35,5 +37,7 @@ def scatter_chart(
         hide_legend=hide_legend,
         show_x_tick_labels=show_x_tick_labels,
         show_y_tick_labels=show_y_tick_labels,
+        y_min=y_min,
+        y_max=y_max,
         **kwargs,
     )
