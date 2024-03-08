@@ -216,6 +216,9 @@ def test_polar_chart():
         # TODO
         polar_chart((1, 2, 3))
 
+        c = polar_chart((1, 2, 3), labels=("A", "B", "C"), show_tick_labels=False)
+        assert c.config["options"]["scales"]["r"]["ticks"]["display"] is False
+
 
 @mock_frame
 def test_radar_chart():
@@ -227,6 +230,8 @@ def test_radar_chart():
         # TODO
         radar_chart((1, 2, 3), (2, 3, 4))
 
+        c = radar_chart((1, 2, 3), (2, 3, 4), (3, 4, 5), labels=("A", "B", "C"), show_tick_labels=False)
+        assert c.config["options"]["scales"]["r"]["ticks"]["display"] is False
 
 def test_color_wraparound():
     gen = auto_color_generator()
