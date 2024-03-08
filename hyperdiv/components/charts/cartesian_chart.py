@@ -56,6 +56,8 @@ def cartesian_chart(
       specified, unless this parameter is set to `False`.
     * `show_x_tick_labels`: Hides the tick labels on the x-axis. Tick labels are shown by default.
     * `show_y_tick_labels`: As above, but for the y-axis.
+    * `y_min`: The minimum value of the y-axis. This is overridden if a data value is less than this value.
+    * `y_max`: As above, but for the maximum value of the y-axis.
     * `**kwargs`: Component style and slot props that are passed
       upward to @component(chart).
 
