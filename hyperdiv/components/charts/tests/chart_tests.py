@@ -150,6 +150,21 @@ def test_cartesian_chart():
                 "bar", dict(label="A", data=(1, 2, 3)), dict(data=(4, 5, 6))
             )
 
+        # Hide x tick labels
+        c = cartesian_chart(
+            "bar", 
+            (1, 2, 3), 
+            show_x_tick_labels=False,
+            show_y_tick_labels=False,
+        )
+        assert c.config["options"]["scales"]["x"]["ticks"]["display"] is False
+        assert c.config["options"]["scales"]["y"]["ticks"]["display"] is False
+
+        # Set y-axis scale
+        c = cartesian_chart("bar", (1, 2, 3), y_min=-10, y_max=10)
+        assert c.config["options"]["scales"]["y"]["suggestedMin"] == -10
+        assert c.config["options"]["scales"]["y"]["suggestedMax"] == 10
+
 
 @mock_frame
 def test_cartesian_constructors():
@@ -208,6 +223,11 @@ def test_polar_chart():
         # TODO
         polar_chart((1, 2, 3))
 
+        c = polar_chart((1, 2, 3), labels=("A", "B", "C"), show_tick_labels=False, r_min=-10, r_max=10)
+        assert c.config["options"]["scales"]["r"]["ticks"]["display"] is False
+        assert c.config["options"]["scales"]["r"]["suggestedMin"] == -10
+        assert c.config["options"]["scales"]["r"]["suggestedMax"] == 10
+
 
 @mock_frame
 def test_radar_chart():
@@ -219,6 +239,16 @@ def test_radar_chart():
         # TODO
         radar_chart((1, 2, 3), (2, 3, 4))
 
+        c = radar_chart(
+            (1, 2, 3), (2, 3, 4), (3, 4, 5), 
+            labels=("A", "B", "C"), 
+            show_tick_labels=False, 
+            r_min=-10, 
+            r_max=10
+        )
+        assert c.config["options"]["scales"]["r"]["ticks"]["display"] is False
+        assert c.config["options"]["scales"]["r"]["suggestedMin"] == -10
+        assert c.config["options"]["scales"]["r"]["suggestedMax"] == 10
 
 def test_color_wraparound():
     gen = auto_color_generator()

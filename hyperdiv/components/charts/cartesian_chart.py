@@ -19,6 +19,10 @@ def cartesian_chart(
     x_axis="linear",
     y_axis="linear",
     hide_legend=False,
+    show_x_tick_labels=True,
+    show_y_tick_labels=True,
+    y_min=None,
+    y_max=None,
     **kwargs,
 ):
     """
@@ -50,6 +54,10 @@ def cartesian_chart(
     * `hide_legend`: Hides the clickable legend at the top of the
       chart. This legend is rendered automatically when `labels` is
       specified, unless this parameter is set to `False`.
+    * `show_x_tick_labels`: Hides the tick labels on the x-axis. Tick labels are shown by default.
+    * `show_y_tick_labels`: As above, but for the y-axis.
+    * `y_min`: The minimum value of the y-axis. This is overridden if a data value is less than this value.
+    * `y_max`: As above, but for the maximum value of the y-axis.
     * `**kwargs`: Component style and slot props that are passed
       upward to @component(chart).
 
@@ -134,6 +142,30 @@ def cartesian_chart(
         x_axis="timeseries",
     )
     ```
+
+    ## Scale and Ticks
+    You can choose to show or hide the tick labels on the x- and
+    y-axis using the `show_x_tick_labels` and `show_y_tick_labels`
+    parameters. Tick labels are shown by default.
+
+    ```py
+    hd.bar_chart(
+        (2, 6, 10),
+        show_x_tick_labels=False,
+        show_y_tick_labels=False
+    )
+    ```
+    You can control the y-axis scale using the `y_min` and `y_max`
+    parameters. These are overridden if the data exceeds the defined
+    scale.
+    ```py
+    hd.bar_chart(
+        (2, 6, 11), # 11 exceeds the max value
+        y_min=-10,
+        y_max=10
+    )
+    ```    
+
 
     ## Mixed Datasets
 
@@ -348,6 +380,12 @@ def cartesian_chart(
 
     x_axis_config["grid"] = dict(color=grid_color)
     y_axis_config["grid"] = dict(color=grid_color)
+
+    x_axis_config["ticks"] = dict(display=show_x_tick_labels)
+    y_axis_config["ticks"] = dict(display=show_y_tick_labels)
+
+    y_axis_config["suggestedMin"] = y_min
+    y_axis_config["suggestedMax"] = y_max
 
     # Hide the legend if (a) there are no dataset labels specified, or
     # (b) `hide_legend` is True.
