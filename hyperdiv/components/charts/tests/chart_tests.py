@@ -150,13 +150,13 @@ def test_cartesian_chart():
                 "bar", dict(label="A", data=(1, 2, 3)), dict(data=(4, 5, 6))
             )
 
-        # Hide y tick labels 
-        c = cartesian_chart("bar", (1, 2, 3), hide_y_tick_labels=True)
-        assert c.config["options"]["scales"]["y"]["ticks"]["display"] is False
-
         # Hide x tick labels
-        c = cartesian_chart("bar", (1, 2, 3), hide_x_tick_labels=True)
+        c = cartesian_chart("bar", (1, 2, 3), show_x_tick_labels=False)
         assert c.config["options"]["scales"]["x"]["ticks"]["display"] is False
+
+        # Hide y tick labels 
+        c = cartesian_chart("bar", (1, 2, 3), show_y_tick_labels=False)
+        assert c.config["options"]["scales"]["y"]["ticks"]["display"] is False
 
 
 @mock_frame

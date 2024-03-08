@@ -9,6 +9,8 @@ def bar_chart(
     x_axis="linear",
     y_axis="linear",
     hide_legend=False,
+    show_x_tick_labels=True,
+    show_y_tick_labels=True,
     **kwargs,
 ):
     """
@@ -31,5 +33,7 @@ def bar_chart(
         x_axis=x_axis,
         y_axis=y_axis,
         hide_legend=hide_legend,
+        show_x_tick_labels=show_x_tick_labels,
+        show_y_tick_labels=show_y_tick_labels,
         **kwargs,
     )
