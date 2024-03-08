@@ -40,7 +40,7 @@ def radar_chart(
     ```
 
     `colors` can be a list of Hyperdiv colors, overriding the
-    automatically generated colors. And `hide_legend` can hide the
+    automatically generated colors, and `hide_legend` can hide the
     clickable dataset legend. You can show or hide the tick labels
     using the `show_tick_labels` parameter. They are shown by default.
 
@@ -57,10 +57,11 @@ def radar_chart(
     ```
 
     You can set the minimum and maximum values for the radar chart
-    using the `r_min` and `r_max` parameters.
+    using the `r_min` and `r_max` parameters. These are overridden if
+    the dataset values exceed the scale.
     ```py
     hd.radar_chart(
-        (1, 4, 2, 4),
+        (1, 4, 2, 11), # 11 exceeds the r_max
         axis=("Commits", "PRs", "Issues", "Discussions"),
         r_min=-10,
         r_max=10

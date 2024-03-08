@@ -31,24 +31,28 @@ def polar_chart(
     ```
 
     The slice colors can be customized using the `colors` argument,
-    and the legend can be hidden:
+    and the legend and tick labels can be hidden.
 
     ```py
     hd.polar_chart(
         (4, 6, 4, 8, 2),
         colors=("red-200", "orange-200", "blue-100", "green-300", "yellow"),
         labels=("Oats", "Milk", "Cheese", "Garlic", "Onions"),
-        hide_legend=True
+        hide_legend=True,
+        show_tick_labels=False
     )
     ```
 
-    You can show or hide the tick labels using the `show_tick_labels` parameter. They are shown by default.
+    You can set the minimum and maximum values for the radar chart
+    using the `r_min` and `r_max` parameters. These are overridden if
+    the dataset values exceed the scale.
     ```py
     hd.polar_chart(
-        (4, 6, 4, 8, 2),
+        (4, 6, 4, 11, 2), # 11 exceeds the r_max
         colors=("red-200", "orange-200", "blue-100", "green-300", "yellow"),
         labels=("Oats", "Milk", "Cheese", "Garlic", "Onions"),
-        show_tick_labels=False
+        r_min=-10,
+        r_max=10
     )
     ```
 
