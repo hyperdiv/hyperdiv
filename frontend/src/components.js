@@ -38,6 +38,7 @@ import { TabGroup } from "./components/tab-group.js";
 import { Tag } from "./components/tag.js";
 import { TreeItem } from "./components/tree-item.js";
 import { Tree } from "./components/tree.js";
+import { PlotlyChart } from "./components/plotly-chart.js";
 import { Audio, Video } from "./components/media.js";
 
 const mapping = {
@@ -78,6 +79,7 @@ const mapping = {
   tree: Tree,
   audio: Audio,
   video: Video,
+  plotly_chart: PlotlyChart,
 };
 
 export const getComponentLogic = (name, tag) => {
