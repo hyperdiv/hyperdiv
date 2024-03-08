@@ -151,12 +151,19 @@ def test_cartesian_chart():
             )
 
         # Hide x tick labels
-        c = cartesian_chart("bar", (1, 2, 3), show_x_tick_labels=False)
+        c = cartesian_chart(
+            "bar", 
+            (1, 2, 3), 
+            show_x_tick_labels=False,
+            show_y_tick_labels=False,
+        )
         assert c.config["options"]["scales"]["x"]["ticks"]["display"] is False
-
-        # Hide y tick labels 
-        c = cartesian_chart("bar", (1, 2, 3), show_y_tick_labels=False)
         assert c.config["options"]["scales"]["y"]["ticks"]["display"] is False
+
+        # Set y-axis scale
+        c = cartesian_chart("bar", (1, 2, 3), y_min=-10, y_max=10)
+        assert c.config["options"]["scales"]["y"]["suggestedMin"] == -10
+        assert c.config["options"]["scales"]["y"]["suggestedMax"] == 10
 
 
 @mock_frame
@@ -216,8 +223,10 @@ def test_polar_chart():
         # TODO
         polar_chart((1, 2, 3))
 
-        c = polar_chart((1, 2, 3), labels=("A", "B", "C"), show_tick_labels=False)
+        c = polar_chart((1, 2, 3), labels=("A", "B", "C"), show_tick_labels=False, r_min=-10, r_max=10)
         assert c.config["options"]["scales"]["r"]["ticks"]["display"] is False
+        assert c.config["options"]["scales"]["r"]["ticks"]["suggestedMin"] == -10
+        assert c.config["options"]["scales"]["r"]["ticks"]["suggestedMax"] == 10
 
 
 @mock_frame
@@ -230,8 +239,16 @@ def test_radar_chart():
         # TODO
         radar_chart((1, 2, 3), (2, 3, 4))
 
-        c = radar_chart((1, 2, 3), (2, 3, 4), (3, 4, 5), labels=("A", "B", "C"), show_tick_labels=False)
+        c = radar_chart(
+            (1, 2, 3), (2, 3, 4), (3, 4, 5), 
+            labels=("A", "B", "C"), 
+            show_tick_labels=False, 
+            r_min=-10, 
+            r_max=10
+        )
         assert c.config["options"]["scales"]["r"]["ticks"]["display"] is False
+        assert c.config["options"]["scales"]["r"]["ticks"]["suggestedMin"] == -10
+        assert c.config["options"]["scales"]["r"]["ticks"]["suggestedMax"] == 10
 
 def test_color_wraparound():
     gen = auto_color_generator()

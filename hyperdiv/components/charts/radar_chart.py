@@ -11,6 +11,8 @@ def radar_chart(
     grid_color="neutral-100",
     hide_legend=False,
     show_tick_labels=True,
+    r_min=None,
+    r_max=None,
     **kwargs,
 ):
     """A radar chart component.
@@ -103,7 +105,12 @@ def radar_chart(
                 scales=dict(
                     r=dict(
                         grid=dict(color=grid_color),
-                        ticks=dict(showLabelBackdrop=False, display=show_tick_labels),
+                        ticks=dict(
+                            showLabelBackdrop=False, 
+                            display=show_tick_labels,
+                            suggestedMin=r_min,
+                            suggestedMax=r_max,
+                        ),
                     ),
                 ),
             ),
