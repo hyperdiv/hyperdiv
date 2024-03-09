@@ -198,7 +198,7 @@ class router:
             result = parse.parse(route, loc.path)
             if result:
                 args = result.named.values()
-                with hd.scope(route + ":" + "#".join(args)):
+                with hd.scope(route + ":" + "#".join(str(arg) for arg in args)):
                     return fn(*result.named.values())
 
         if loc.path in self.redirects:
