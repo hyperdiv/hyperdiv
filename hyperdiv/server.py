@@ -1,4 +1,3 @@
-import socket
 import datetime
 import os
 import sys
@@ -8,7 +7,7 @@ from tornado.httpserver import HTTPServer
 from tornado.ioloop import IOLoop
 from .debug import logger, PRODUCTION
 from .connection import Connection
-from .plugin import PluginAssetsCollector
+from .plugin import PluginAssetsCollector, PLUGINS_PREFIX
 from .frontend import get_frontend_public_path
 
 
@@ -31,7 +30,10 @@ class Server:
         self.server.listen(self.port, address=os.environ.get("HD_HOST", "localhost"))
 
     def start(self):
-        print(f"Running at http://{os.environ.get('HD_HOST', 'localhost')}:{self.port}", file=sys.stderr)
+        print(
+            f"Running at http://{os.environ.get('HD_HOST', 'localhost')}:{self.port}",
+            file=sys.stderr,
+        )
         print("Ctrl-C to exit", file=sys.stderr)
 
         signal.signal(signal.SIGINT, self.stop)
@@ -109,16 +111,24 @@ class Server:
         class HyperdivPluginHandler(StaticFileHandler):
             @classmethod
             def get_absolute_path(cls, root, path):
-                if path in PluginAssetsCollector.plugin_assets:
-                    return PluginAssetsCollector.plugin_assets[path]
-                else:
-                    raise HTTPError(404)
+                # We are expecting paths like `<plugin_name>/<asset_path>`.
+                split_path = path.split("/", 1)
+                if len(split_path) == 2:
+                    plugin_name = split_path[0]
+                    assets_config = PluginAssetsCollector.plugin_assets.get(plugin_name)
+                    if assets_config:
+                        root = assets_config["assets_root"]
+                        path = split_path[1]
+                        return super().get_absolute_path(root, path)
+                raise HTTPError(404)
 
         public_path = get_frontend_public_path()
 
         routes = []
 
-        routes.append((r"/plugins/(.*)", HyperdivPluginHandler, dict(path="/")))
+        routes.append(
+            (rf"{PLUGINS_PREFIX}/(.*)", HyperdivPluginHandler, dict(path="/"))
+        )
 
         assets_dir = os.path.join(
             os.path.dirname(os.path.abspath(sys.argv[0])), "assets"
