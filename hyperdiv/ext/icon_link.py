@@ -1,8 +1,13 @@
-import hyperdiv as hd
+from ..components.link import link
+from ..components.tooltip import tooltip
+from ..components.window import window
+from ..components.icon import icon
+from ..components.text import text
 
 
-def icon_link(icon, name, href, responsive_threshold=650):
-    """Renders a @component(link) with a prefix icon. Used mainly in
+class icon_link(link):
+    """
+    Renders a @component(link) with a prefix icon. Used mainly in
     @component(template) to add top-bar links to a template.
 
     ```py
@@ -26,28 +31,64 @@ def icon_link(icon, name, href, responsive_threshold=650):
     )
     ```
     """
-    w = hd.window()
 
-    def link(show_name=True):
-        with hd.link(
+    _name = "link"
+
+    def __init__(
+        self,
+        icon_name,
+        name,
+        href,
+        responsive_threshold=650,
+        font_size="small",
+        font_color="neutral-700",
+        border_radius="medium",
+        hover_background_color="neutral-100",
+        direction="horizontal",
+        align="center",
+        gap=0.5,
+        height=2,
+        padding=(0.5, 0.7, 0.5, 0.7),
+        **kwargs
+    ):
+        """
+        Parameters:
+
+        * `icon_name`: The icon to render in the link.
+        * `name`: The rendered name of the link.
+        * `href`: The linked URL or path.
+        * `responsive_threshold`: The window width, in pixels, below
+          which the link name is rendered in a tooltip, instead of
+          being rendered inline.
+
+        The rest of the keyword arguments are passed up to
+        @component(link).
+        """
+        w = window()
+        show_name = w.width > responsive_threshold
+
+        super().__init__(
             href=href,
-            font_size="small",
-            font_color="neutral-700",
-            border_radius="medium",
-            hover_background_color="neutral-100",
-        ):
-            with hd.hbox(
-                align="center",
-                gap=0.5,
-                height=2,
-                padding=(0.5, 0.7, 0.5, 0.7),
-            ):
-                hd.icon(icon)
-                if show_name:
-                    hd.text(name)
+            font_size=font_size,
+            font_color=font_color,
+            border_radius=border_radius,
+            hover_background_color=hover_background_color,
+            direction=direction,
+            align=align,
+            gap=gap,
+            height=height,
+            padding=padding,
+            collect=False,
+            **kwargs
+        )
 
-    if w.width < responsive_threshold:
-        with hd.tooltip(name):
-            link(show_name=False)
-    else:
-        link(show_name=True)
+        with self:
+            icon(icon_name)
+            if show_name:
+                text(name)
+
+        if show_name:
+            self.collect()
+        else:
+            with tooltip(name):
+                self.collect()
