@@ -51,17 +51,13 @@ class LocationSingleton extends EventBus {
 
   set(location, dispatch = false) {
     if (this._updateLocation(location)) {
+      if (location.path.endsWith("/")) {
+        location.path = location.path.replace(/\/$/, "");
+      }
       const locationString = this._getLocationString(location);
 
       try {
-        window.history.pushState(
-          // Push the scroll position into the state, too, to be
-          // restored when this state is popped.
-          // { scroll: scrollPosition },
-          null,
-          "",
-          locationString
-        );
+        window.history.pushState(null, "", locationString);
       } catch (e) {
         console.error(`Invalid location: "${locationString}"`);
         return;
@@ -134,7 +130,12 @@ class LocationSingleton extends EventBus {
   }
 
   _getLocation() {
-    return this.parseLocation(window.location);
+    const location = this.parseLocation(window.location);
+    if (location.path.endsWith("/")) {
+      location.path = location.path.replace(/\/$/, "");
+      window.history.replaceState(null, "", this._getLocationString(location));
+    }
+    return location;
   }
 
   _getLocationString(location) {

@@ -4,7 +4,21 @@ import { locationSingleton } from "../singletons/location-singleton.js";
 import { HtmlComponent } from "./core.js";
 
 export const linkClickHandler = (evt, forceNewTab = false) => {
-  const url = new URL(evt.currentTarget.href);
+  let url = null;
+  try {
+    url = new URL(evt.currentTarget.href);
+  } catch (e) {}
+
+  if (!url) {
+    // Some components like `breadcrumb_item` don't resolve their
+    // `href` prop into a full URL. Instead they send their href prop
+    // values verbatim, like `"foo/bar&baz=1"`. In that case we create a
+    // temporary <a> node and use it to get a fully resolved URL.
+
+    const node = document.createElement("a");
+    node.href = evt.currentTarget.href;
+    url = new URL(node.href);
+  }
 
   // If it's an external or assets link:
   if (

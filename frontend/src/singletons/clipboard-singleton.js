@@ -11,7 +11,7 @@ class ClipboardSingleton {
 
   /* eslint-disable class-methods-use-this */
   getInitialUpdates() {
-    return [];
+    return [["clipboard", "_value", ""]];
   }
 }
 
