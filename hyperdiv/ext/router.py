@@ -198,6 +198,15 @@ class router:
             result = parse.parse(route, loc.path)
             if result:
                 args = result.named.values()
+
+                has_slashes = False
+                for arg in args:
+                    if "/" in arg:
+                        has_slashes = True
+                        break
+                if has_slashes:
+                    continue
+
                 with hd.scope(route + ":" + "#".join(str(arg) for arg in args)):
                     return fn(*result.named.values())
 
