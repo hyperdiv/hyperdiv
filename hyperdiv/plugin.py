@@ -1,6 +1,8 @@
+import glob
 from urllib.parse import urlparse
 import os
 from .component_base import Component
+from .component_mixins.styled import Styled
 
 PLUGINS_PREFIX = "/hyperdiv-plugins"
 
@@ -23,57 +25,71 @@ class PluginAssetsCollector(type):
         if clsname != "Plugin":
             plugin_name = getattr(klass, "_name", None) or klass.__name__
 
-            assets_root = getattr(klass, "assets_root", None)
-            assets = getattr(klass, "assets", None)
+            assets_root = getattr(klass, "_assets_root", None)
+            asset_descriptions = getattr(klass, "_assets", None)
 
-            if not assets:
-                raise Exception(f"Plugin {plugin_name} does not specify any `assets`.")
+            if not asset_descriptions:
+                raise Exception(f"Plugin {plugin_name} does not specify any `_assets`.")
 
-            local_assets = []
-            for typ, asset in klass.assets:
-                if typ in ("css-link", "js-link"):
-                    if not is_url(asset):
-                        local_assets.append((typ, asset))
+            def check_assets_root():
+                if not assets_root:
+                    raise Exception(
+                        f"Plugin {plugin_name} does not specify an `_assets_root`"
+                    )
 
-            if not local_assets:
-                return
+                if not os.path.exists(assets_root):
+                    raise Exception(
+                        f"Plugin {plugin_name} `_assets_root` {assets_root} does not exist."
+                    )
 
-            if not assets_root:
-                raise Exception(
-                    f"Plugin {plugin_name} does not specify an `assets_root`"
-                )
-
-            if not os.path.exists(assets_root):
-                raise Exception(
-                    f"Plugin {plugin_name} `assets_root` {assets_root} does not exist."
-                )
-
-            if not os.path.isabs(assets_root):
-                raise Exception(
-                    f"Plugin {plugin_name} `assets_root` {assets_root} is not an absolute path."
-                )
+                if not os.path.isabs(assets_root):
+                    raise Exception(
+                        f"Plugin {plugin_name} `_assets_root` {assets_root} is not an absolute path."
+                    )
 
             assets_config = dict(
                 assets_root=assets_root,
                 assets=[],
             )
 
-            PluginAssetsCollector.plugin_assets[plugin_name] = assets_config
-
-            for typ, asset_path in local_assets:
-                if typ in ("css-link", "js-link"):
-                    path = os.path.join(assets_root, asset_path)
-                    if not os.path.exists(path):
-                        raise Exception(
-                            f"Asset path {asset_path} specified by plugin {plugin_name} does not exist."
-                        )
-
+            for asset_description in asset_descriptions:
+                if isinstance(asset_description, tuple):
+                    if len(asset_description) != 2:
+                        raise Exception(f"Invalid asset: {asset_description}")
+                    typ, asset_path = asset_description
+                    if typ not in ("css-link", "js-link"):
+                        raise Exception(f"Invalid asset type: {typ}")
+                    if not is_url(asset_path):
+                        check_assets_root()
+                        path = os.path.join(assets_root, asset_path)
+                        if not os.path.exists(path):
+                            raise Exception(
+                                f"Plugin asset path {asset_path} does not exist."
+                            )
                     assets_config["assets"].append(asset_path)
+                else:
+                    check_assets_root()
+                    paths = glob.glob(
+                        asset_description, root_dir=assets_root, recursive=True
+                    )
+                    if not paths:
+                        raise Exception(
+                            f"Asset description {asset_description} did not match any files."
+                        )
+                    for path in paths:
+                        if path.lower().endswith(".css"):
+                            assets_config["assets"].append(("css-link", path))
+                        elif path.lower().endswith(".js"):
+                            assets_config["assets"].append(("js-link", path))
+                        else:
+                            raise Exception(f"Asset with unknown extension: {path}")
+
+            PluginAssetsCollector.plugin_assets[plugin_name] = assets_config
 
         return klass
 
 
-class Plugin(Component, metaclass=PluginAssetsCollector):
+class Plugin(Component, Styled, metaclass=PluginAssetsCollector):
     _tag = "hyperdiv-plugin"
 
     @staticmethod
@@ -103,12 +119,12 @@ class Plugin(Component, metaclass=PluginAssetsCollector):
         output = super().render()
         output["assets"] = []
 
-        for asset_type, asset in type(self).assets:
-            if asset in asset_paths:
-                output["assets"].append(
-                    (asset_type, f"{PLUGINS_PREFIX}/{plugin_name}/{asset}")
-                )
+        for asset_type, asset_path in asset_paths:
+            if is_url(asset_path):
+                output["assets"].append((asset_type, asset_path))
             else:
-                output["assets"].append((asset_type, asset))
+                output["assets"].append(
+                    (asset_type, f"{PLUGINS_PREFIX}/{plugin_name}/{asset_path}")
+                )
 
         return output
