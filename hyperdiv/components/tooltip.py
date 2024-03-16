@@ -36,6 +36,24 @@ class tooltip(Component, Styled, Togglable):
     with hd.tooltip("Settings"):
         hd.icon("gear")
     ```
+
+    You can place more complex content in the tooltip by using the
+    `content_slot` slot.
+
+    ```py
+    with hd.tooltip() as tooltip:
+        hd.markdown(
+            '''
+            ## Settings
+
+            The system settings.
+            ''',
+            gap=0.5,
+            padding=0.8,
+            slot=tooltip.content_slot
+        )
+        hd.icon("gear")
+
     """
 
     _tag = "sl-tooltip"
