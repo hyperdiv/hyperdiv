@@ -1,5 +1,6 @@
 from ..prop_types import String, Bool, Int, OneOrMoreOf
 from ..prop import Prop
+from ..slot import Slot
 from ..component_base import Component
 from ..component_mixins.styled import Styled
 from ..component_mixins.togglable import Togglable
@@ -53,6 +54,8 @@ class tooltip(Component, Styled, Togglable):
     # the action is `"manual"`, the tooltip does not become visible
     # unless the `opened` prop is programmatically set to `True`.
     trigger = Prop(TooltipTrigger, ("hover", "focus"))
+
+    content_slot = Slot("content")
 
     base_style = Prop(BasePart())
     body_style = Prop(StylePart("body"))
