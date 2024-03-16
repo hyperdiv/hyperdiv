@@ -1,3 +1,4 @@
+blank_issues_enabled: false
 contact_links:
   - name: Feature Requests
     url: https://github.com/hyperdiv/hyperdiv/discussions/categories/ideas
