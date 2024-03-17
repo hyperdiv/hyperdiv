@@ -144,16 +144,22 @@ class Component(Collector):
     @classmethod
     @cache
     def _get_static_props(cls):
-        props = dict()
+        unique_props = dict()
         for klass in reversed(cls.__mro__[:-1]):
-            props.update(
+            unique_props.update(
                 {
                     attr.name: attr
                     for attr in klass.__dict__.values()
                     if isinstance(attr, Prop)
                 }
             )
-        return props.values()
+
+        props = unique_props.values()
+        camlcase_props = getattr(cls, "_camlcase_props", True)
+        if not camlcase_props:
+            for prop in props:
+                prop.camlcase_ui_name = False
+        return props
 
     @classmethod
     @cache
