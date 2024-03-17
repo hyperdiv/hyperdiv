@@ -91,6 +91,7 @@ class PluginAssetsCollector(type):
 
 class Plugin(Component, Styled, metaclass=PluginAssetsCollector):
     _tag = "hyperdiv-plugin"
+    _camlcase_props = False
 
     @staticmethod
     def js(asset):
