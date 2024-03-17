@@ -215,14 +215,16 @@ class Component(Collector):
         This may be useful for auto-closing an ephemeral alert, dropdown,
         or dialog, after being shown for some duration of time.
         """
-        from .components.task import task
+        from .components.task import run_asynchronously
 
         async def set_delayed():
             await asyncio.sleep(delay)
             setattr(self, prop_name, prop_value)
 
-        set_prop_task = task()
-        set_prop_task.rerun(set_delayed)
+        def cb(result=None, error=None):
+            pass
+
+        run_asynchronously(cb, set_delayed)
 
     def reset_prop(self, prop_name):
         """
@@ -236,14 +238,16 @@ class Component(Collector):
         Like `set_prop_delayed` but instead of mutating the prop it resets
         it to its initial value.
         """
-        from .components.task import task
+        from .components.task import run_asynchronously
 
         async def reset_delayed():
             await asyncio.sleep(delay)
             self.reset_prop(prop_name)
 
-        set_prop_task = task()
-        set_prop_task.rerun(reset_delayed)
+        def cb(result=None, error=None):
+            pass
+
+        run_asynchronously(cb, reset_delayed)
 
 
 class BaseState(Component):

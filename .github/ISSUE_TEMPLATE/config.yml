@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Feature Requests
+    url: https://github.com/hyperdiv/hyperdiv/discussions/categories/ideas
+    about: If you have ideas for missing features that should be added to Hyperdiv.
+  - name: Help & Questions
+    url: https://github.com/hyperdiv/hyperdiv/discussions/categories/help
+    about: If you need guidance on how to build something with Hyperdiv, or just have questions.

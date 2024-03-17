@@ -1,5 +1,6 @@
 from ..prop_types import String, Bool, Int, OneOrMoreOf
 from ..prop import Prop
+from ..slot import Slot
 from ..component_base import Component
 from ..component_mixins.styled import Styled
 from ..component_mixins.togglable import Togglable
@@ -35,6 +36,24 @@ class tooltip(Component, Styled, Togglable):
     with hd.tooltip("Settings"):
         hd.icon("gear")
     ```
+
+    You can place more complex content in the tooltip by using the
+    `content_slot` slot.
+
+    ```py
+    with hd.tooltip() as tooltip:
+        hd.markdown(
+            '''
+            ## Settings
+
+            The system settings.
+            ''',
+            gap=0.5,
+            padding=0.8,
+            slot=tooltip.content_slot
+        )
+        hd.icon("gear")
+
     """
 
     _tag = "sl-tooltip"
@@ -53,6 +72,8 @@ class tooltip(Component, Styled, Togglable):
     # the action is `"manual"`, the tooltip does not become visible
     # unless the `opened` prop is programmatically set to `True`.
     trigger = Prop(TooltipTrigger, ("hover", "focus"))
+
+    content_slot = Slot("content")
 
     base_style = Prop(BasePart())
     body_style = Prop(StylePart("body"))

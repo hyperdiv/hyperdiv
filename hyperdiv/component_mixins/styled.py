@@ -254,8 +254,20 @@ class Styled(Slottable):
     )
     # The font weight (how bold the font is) of the text within the
     # component.
+    #
+    # Note that when using @component(markdown), you can also use use
+    # `**text**` to make inline text bold, **like this**.
     font_weight = Prop(
         CSSField("font-weight", Optional(DesignToken(tokens.FontWeight)))
+    )
+    # Determines whether the font should be slanted/italic. `"italic"`
+    # uses the italic version of the font, if available. `"oblique"`
+    # will slant the normal font.
+    #
+    # Note that when using @component(markdown), you can also use
+    # `*text*` to make inline text italic, *like this*.
+    font_style = Prop(
+        CSSField("font-style", Optional(OneOf("normal", "italic", "oblique")))
     )
     # How spaced apart the letters of the font within the component
     # are.
