@@ -72,7 +72,7 @@ def render_css(key, css_props):
             part_selector = f"{root_selector}::part({css_part.prop_type.part_name})"
             part_style = {
                 css_key.format(selector=part_selector): css_value
-                for css_key, css_value in css_part.render().items()
+                for css_key, css_value in rendered_part.items()
             }
             style.update(part_style)
 
