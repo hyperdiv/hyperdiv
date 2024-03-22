@@ -4,9 +4,7 @@ from ..slot import Slot
 from ..component_mixins.interactive import Interactive
 from ..style_part import BasePart, StylePart
 from .common.label_component import LabelComponent
-from .common.text_utils import concat_text
 from .common.shoelace_types import ShoelaceSize
-from .plaintext import plaintext
 from .icon import icon
 
 
