@@ -75,7 +75,6 @@ class tooltip(Component, Styled, Togglable):
 
     content_slot = Slot("content")
 
-    base_style = Prop(BasePart())
     body_style = Prop(StylePart("body"))
     base_popup_style = Prop(StylePart("base__popup"))
     base_arrow_style = Prop(StylePart("base__arrow"))
