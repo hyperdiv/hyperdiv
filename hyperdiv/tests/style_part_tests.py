@@ -1,10 +1,21 @@
+import pytest
 from ..test_utils import mock_frame
 from ..components.style import style
 from ..components.button import button
+from ..style_part import StylePart
 
 
 @mock_frame
 def test_style_part():
+    # None case
+    b = button(label_style=None)
+    assert b.label_style is None
+
+    # Non-style case
+    with pytest.raises(Exception):
+        button(label_style=10)
+
+    # Basic case, does not add `display:flex` or direction.
     b = button(label_style=style(width=10))
 
     rendered = b.render()
