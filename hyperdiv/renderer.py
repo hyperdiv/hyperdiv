@@ -2,11 +2,13 @@ from jinja2 import Template
 import json
 from .prop_types import Bool
 
+selector_template = "{selector}"
+
 
 def render_css_props(css_props):
     # Format string allowing the caller to replace '{selector}' with
     # the real selector.
-    selector = "{selector}"
+    selector = selector_template
     active_selector = f"{selector}:active"
     hover_selector = f"{selector}:hover"
 

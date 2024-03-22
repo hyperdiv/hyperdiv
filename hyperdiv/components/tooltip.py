@@ -6,7 +6,7 @@ from ..component_mixins.styled import Styled
 from ..component_mixins.togglable import Togglable
 from .common.text_utils import concat_text
 from .common.shoelace_types import ShoelacePlacement
-from ..style_part import BasePart, StylePart
+from ..style_part import StylePart
 
 
 class TooltipTriggerDef(OneOrMoreOf):
