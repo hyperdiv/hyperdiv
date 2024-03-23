@@ -1,6 +1,6 @@
 from .prop_types import CSS
-from .components.style import style
-from .renderer import render_css_props
+from .components.style import style, boxy_props
+from .renderer import render_css_props, selector_template
 
 
 class StylePart(CSS):
@@ -27,8 +27,17 @@ class StylePart(CSS):
             return None
 
         props = style_part._get_stored_props()
+        rendered = render_css_props(props.values())
 
-        return render_css_props(props.values())
+        for boxy_prop in boxy_props:
+            if props[boxy_prop].value is not None:
+                # If a boxy prop is set to a concrete value, we tack
+                # "display:flex" onto the output CSS, because boxy props
+                # don't make sense in non-flex context.
+                rendered[selector_template] |= dict(display="flex")
+                break
+
+        return rendered
 
     def __repr__(self):
         return f"StylePart[{self.part_name}]"

@@ -2,11 +2,13 @@ from jinja2 import Template
 import json
 from .prop_types import Bool
 
+selector_template = "{selector}"
+
 
 def render_css_props(css_props):
     # Format string allowing the caller to replace '{selector}' with
     # the real selector.
-    selector = "{selector}"
+    selector = selector_template
     active_selector = f"{selector}:active"
     hover_selector = f"{selector}:hover"
 
@@ -72,7 +74,7 @@ def render_css(key, css_props):
             part_selector = f"{root_selector}::part({css_part.prop_type.part_name})"
             part_style = {
                 css_key.format(selector=part_selector): css_value
-                for css_key, css_value in css_part.render().items()
+                for css_key, css_value in rendered_part.items()
             }
             style.update(part_style)
 

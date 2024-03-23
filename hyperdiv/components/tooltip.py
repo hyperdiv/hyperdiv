@@ -6,7 +6,7 @@ from ..component_mixins.styled import Styled
 from ..component_mixins.togglable import Togglable
 from .common.text_utils import concat_text
 from .common.shoelace_types import ShoelacePlacement
-from ..style_part import BasePart, StylePart
+from ..style_part import StylePart
 
 
 class TooltipTriggerDef(OneOrMoreOf):
@@ -75,7 +75,6 @@ class tooltip(Component, Styled, Togglable):
 
     content_slot = Slot("content")
 
-    base_style = Prop(BasePart())
     body_style = Prop(StylePart("body"))
     base_popup_style = Prop(StylePart("base__popup"))
     base_arrow_style = Prop(StylePart("base__arrow"))
