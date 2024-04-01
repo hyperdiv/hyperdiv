@@ -1,6 +1,6 @@
 {
   "name": "hyperdiv",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "private": true,
   "scripts": {
     "build": "rollup -c",
@@ -29,7 +29,7 @@
     "rollup-plugin-terser": "^7.0.2"
   },
   "dependencies": {
-    "@shoelace-style/shoelace": "^2.13.1",
+    "@shoelace-style/shoelace": "^2.15.0",
     "chart.js": "^4.4.1",
     "chartjs-adapter-date-fns": "^3.0.0",
     "date-fns": "^2.30.0",
