@@ -51,7 +51,7 @@ class LocationSingleton extends EventBus {
 
   set(location, dispatch = false) {
     if (this._updateLocation(location)) {
-      if (location.path.endsWith("/")) {
+      if (location.path !== "/" && location.path.endsWith("/")) {
         location.path = location.path.replace(/\/$/, "");
       }
       const locationString = this._getLocationString(location);
@@ -131,7 +131,7 @@ class LocationSingleton extends EventBus {
 
   _getLocation() {
     const location = this.parseLocation(window.location);
-    if (location.path.endsWith("/")) {
+    if (location.path !== "/" && location.path.endsWith("/")) {
       location.path = location.path.replace(/\/$/, "");
       window.history.replaceState(null, "", this._getLocationString(location));
     }
