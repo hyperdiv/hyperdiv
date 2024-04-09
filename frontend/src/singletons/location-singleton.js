@@ -13,6 +13,10 @@ class LocationSingleton extends EventBus {
     this.location = this._getLocation();
     this.previousLocation = null;
 
+    if (this.location.hashArg) {
+      onNextUpdate(() => this.scrollToHash());
+    }
+
     window.onpopstate = () => {
       const newLocation = this._getLocation();
 
@@ -46,10 +50,33 @@ class LocationSingleton extends EventBus {
   }
 
   setComponent(hdNode) {
-    this.set(hdNode.props);
+    this.setInternal(hdNode.props, false);
+    // setComponent is called when a location update arrives from
+    // Python, after the DOM has been updated. In that case we scroll
+    // to the hash, if any, immediately.
+    if (this.location.hashArg) {
+      this.scrollToHash();
+    }
   }
 
-  set(location, dispatch = false) {
+  set(location) {
+    this.setInternal(location, true);
+    // set is called from JS when users click a link. In that case we
+    // attempt to scroll to the hash directly. If that does not
+    // succeed, because the anchor element was not found, we attempt
+    // to scroll again on the next update. This is because when users
+    // click a link, it may be either (a) a link to an existing hash
+    // on the current page, or (b) a link to to a new page that Python
+    // has not yet rendered.
+    if (this.location.hashArg) {
+      const scrolled = this.scrollToHash();
+      if (!scrolled) {
+        onNextUpdate(() => this.scrollToHash());
+      }
+    }
+  }
+
+  setInternal(location, dispatch) {
     if (this._updateLocation(location)) {
       if (location.path !== "/" && location.path.endsWith("/")) {
         location.path = location.path.replace(/\/$/, "");
@@ -63,8 +90,6 @@ class LocationSingleton extends EventBus {
         return;
       }
 
-      // saveScrollPositionsForLocation(locationString);
-
       if (dispatch) {
         this.dispatch("location-update", location);
       }
@@ -76,23 +101,28 @@ class LocationSingleton extends EventBus {
       }
       this.previousLocation = this.location;
     }
-    this.scrollToHash();
   }
 
   scrollToHash() {
     const location = this.location;
-    if (location.hashArg) {
-      let element = document.getElementById(location.hashArg);
-      if (!element) {
-        const elements = document.getElementsByName(location.hashArg);
-        if (elements.length > 0) {
-          element = elements[0];
-        }
-      }
-      if (element) {
-        element.scrollIntoView();
+
+    if (!this.location.hashArg) {
+      return false;
+    }
+
+    let element = document.getElementById(location.hashArg);
+    if (!element) {
+      const elements = document.getElementsByName(location.hashArg);
+      if (elements.length > 0) {
+        element = elements[0];
       }
     }
+    if (element) {
+      element.scrollIntoView();
+      return true;
+    }
+
+    return false;
   }
 
   parseLocation(locationObj) {
