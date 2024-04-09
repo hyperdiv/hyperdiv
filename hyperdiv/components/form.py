@@ -1,4 +1,5 @@
 import asyncio
+import types
 from ..prop_types import Bool, BoolEvent, PureString
 from ..prop import Prop
 from ..debug import logger
@@ -39,12 +40,18 @@ class FormControlWrapper:
     in `wrapper_style`.
     """
 
-    def __init__(self, wrapper_style=None, validation=None, is_async=False):
+    def __init__(
+        self,
+        wrapper_style=None,
+        validation=None,
+        is_async=False,
+        collect=True,
+    ):
         self.validation = validation or no_validation
         self.is_async = is_async
         kwargs = wrapper_style.props_as_dict() if wrapper_style else dict()
         gap = kwargs.pop("gap", None) or 0.1
-        self.box = box(gap=gap, **kwargs)
+        self.box = box(gap=gap, collect=collect, **kwargs)
         self.state = state(error_message=None)
         self.task = task()
 
@@ -61,6 +68,9 @@ class FormControlWrapper:
         if error:
             text(error, font_color="red-600", font_size="small")
         self.box.__exit__(exc_type, exc_val, exc_tb)
+
+    def collect(self):
+        self.box.collect()
 
     def form_control(self):
         return self.box.children[0]
@@ -369,13 +379,14 @@ class form(box):
 
     def _form_control(
         self,
-        control_fn,
+        control_cls,
         *label,
         has_label=True,
         validation=None,
         async_validation=None,
         required=None,
         wrapper_style=None,
+        collect=True,
         **kwargs,
     ):
         is_async = False
@@ -398,7 +409,10 @@ class form(box):
             required = True
 
         fc = FormControlWrapper(
-            validation=validation, is_async=is_async, wrapper_style=wrapper_style
+            validation=validation,
+            is_async=is_async,
+            wrapper_style=wrapper_style,
+            collect=collect,
         )
         self.form_controls.append(fc)
 
@@ -419,12 +433,19 @@ class form(box):
                 self.disabled or kwargs.pop("disabled", False) or self._being_submitted
             )
             if has_label:
-                control = control_fn(*label, name=name, disabled=disabled, **kwargs)
+                control = control_cls(*label, name=name, disabled=disabled, **kwargs)
             else:
-                control = control_fn(name=name, disabled=disabled, **kwargs)
+                control = control_cls(name=name, disabled=disabled, **kwargs)
 
         if self._submit_clicked:
             fc.validate()
+
+        # Override the collect() method on the control to call
+        # collect() on the wrapper box that the control is nested in.
+        def overridden_collect(self):
+            fc.collect()
+
+        control.collect = types.MethodType(overridden_collect, control)
 
         return control
 
