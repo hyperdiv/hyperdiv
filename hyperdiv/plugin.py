@@ -47,6 +47,14 @@ class PluginAssetsCollector(type):
                         f"Plugin {plugin_name} `_assets_root` {assets_root} is not an absolute path."
                     )
 
+            def infer_asset_from_extension(asset):
+                if asset.lower().endswith(".css"):
+                    return ("css-link", asset)
+                elif asset.lower().endswith(".js"):
+                    return ("js-link", asset)
+                else:
+                    raise Exception(f"Asset with unknown extension: {asset}")
+
             assets_config = dict(
                 assets_root=assets_root,
                 assets=[],
@@ -57,6 +65,9 @@ class PluginAssetsCollector(type):
                     if len(asset_description) != 2:
                         raise Exception(f"Invalid asset: {asset_description}")
                     typ, asset_path = asset_description
+                    if typ in ("js", "css"):
+                        assets_config["assets"].append(asset_description)
+                        continue
                     if typ not in ("css-link", "js-link"):
                         raise Exception(f"Invalid asset type: {typ}")
                     if not is_url(asset_path):
@@ -66,7 +77,11 @@ class PluginAssetsCollector(type):
                             raise Exception(
                                 f"Plugin asset path {asset_path} does not exist."
                             )
-                    assets_config["assets"].append(asset_path)
+                    assets_config["assets"].append(asset_description)
+                elif is_url(asset_description):
+                    assets_config["assets"].append(
+                        infer_asset_from_extension(asset_description)
+                    )
                 else:
                     check_assets_root()
                     paths = glob.glob(
@@ -77,12 +92,7 @@ class PluginAssetsCollector(type):
                             f"Asset description {asset_description} did not match any files."
                         )
                     for path in paths:
-                        if path.lower().endswith(".css"):
-                            assets_config["assets"].append(("css-link", path))
-                        elif path.lower().endswith(".js"):
-                            assets_config["assets"].append(("js-link", path))
-                        else:
-                            raise Exception(f"Asset with unknown extension: {path}")
+                        assets_config["assets"].append(infer_asset_from_extension(path))
 
             PluginAssetsCollector.plugin_assets[plugin_name] = assets_config
 
@@ -121,7 +131,7 @@ class Plugin(Component, Styled, metaclass=PluginAssetsCollector):
         output["assets"] = []
 
         for asset_type, asset_path in asset_paths:
-            if is_url(asset_path):
+            if asset_type in ("css", "js") or is_url(asset_path):
                 output["assets"].append((asset_type, asset_path))
             else:
                 output["assets"].append(
