@@ -234,3 +234,31 @@ def test_mixed_assets():
                 Plugin.css_link("https://foo.com/style.css"),
             ]
         )
+
+
+@mock_frame
+def test_assets_root():
+    with tempfile.TemporaryDirectory() as plugin_dir:
+
+        class Plugin7(Plugin):
+            _assets_root = plugin_dir
+            _assets = ["https://foo.com/foo.js"]
+
+        assert (
+            PluginAssetsCollector.plugin_assets["Plugin7"]["assets_root"] == plugin_dir
+        )
+
+        p = Plugin7()
+        rendered = p.render()
+
+        assert rendered["assetsRoot"] == f"{PLUGINS_PREFIX}/Plugin7"
+
+    class Plugin8(Plugin):
+        _assets = ["https://foo.com/foo.js"]
+
+    assert PluginAssetsCollector.plugin_assets["Plugin8"]["assets_root"] is None
+
+    p = Plugin8()
+    rendered = p.render()
+
+    assert "assetsRoot" not in rendered
