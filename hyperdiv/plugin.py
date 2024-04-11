@@ -103,26 +103,41 @@ class PluginAssetsCollector(type):
 
 
 class Plugin(Component, Styled, metaclass=PluginAssetsCollector):
+    """
+    This class can be subclassed to define custom Hyperdiv components,
+    with custom Javascript, CSS, and other assets, such as images.
+
+    See [here](/reference/plugins) for a detailed dive into how
+    plugins work.
+    """
+
     _tag = "hyperdiv-plugin"
     _camlcase_props = False
 
     @staticmethod
     def js(asset):
+        """Helper to define an inline Javascript asset."""
         return ("js", asset)
 
     @staticmethod
     def css(asset):
+        """Helper to define an inline CSS asset."""
         return ("css", asset)
 
     @staticmethod
     def js_link(asset):
+        """Helper to define a Javascript link asset."""
         return ("js-link", asset)
 
     @staticmethod
     def css_link(asset):
+        """Helper to define a CSS link asset."""
         return ("css-link", asset)
 
     def render(self):
+        """
+        The JSON-rendered form of the plugin that is sent to the browser.
+        """
         klass = type(self)
         plugin_name = getattr(klass, "_name", None) or klass.__name__
 
