@@ -65,7 +65,7 @@ export const linkClickHandler = (evt, forceNewTab = false) => {
 
   // Update the location.
   evt.preventDefault();
-  locationSingleton.set(newLocation, true);
+  locationSingleton.set(newLocation);
 };
 
 export const onLinkClick = new EventHandler("click", (key, evt) => {

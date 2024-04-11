@@ -1,22 +1,45 @@
+import pytest
 from ...test_utils import mock_frame, MockRunner
 from ..form import form
 from ..box import box
+from ..text import text
 
 
 @mock_frame
 def test_form():
-    with box(collect=False):
-        with form() as f:
-            f.checkbox(name="checkbox")
-            f.text_input(name="text_input")
-            f.color_picker(name="picker")
-            f.textarea(name="textarea")
-            f.slider(name="slider")
-            f.radio_group(name="radio_group")
-            f.select(name="select")
-            f.switch(name="switch")
-            f.submit_button()
-            f.reset_button()
+    with form() as f:
+        f.checkbox(name="checkbox")
+        f.text_input(name="text_input")
+        f.color_picker(name="picker")
+        f.textarea(name="textarea")
+        f.slider(name="slider")
+        f.radio_group(name="radio_group")
+        f.select(name="select")
+        f.switch(name="switch")
+        f.submit_button()
+        f.reset_button()
+
+
+@mock_frame
+def test_form_collect():
+    with form() as f:
+        text_input = f.text_input(name="input", collect=False)
+        text_component = text("Hello")
+        text_input.collect()
+
+    assert len(f.children) == 2
+    assert f.children[0] == text_component
+    assert isinstance(f.children[1], box)
+    assert f.children[1].children[0] == text_input
+
+
+@mock_frame
+def test_form_collect_error():
+    with form() as f:
+        text_input = f.text_input(name="input")
+
+        with pytest.raises(Exception):
+            text_input.collect()
 
 
 def test_submit():

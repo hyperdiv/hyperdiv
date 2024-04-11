@@ -255,6 +255,34 @@ class Component(Collector):
 
         run_asynchronously(cb, reset_delayed)
 
+    def reset_component(self):
+        """
+        Reset all component props.
+        """
+        props = self._get_stored_props()
+        frame = StateAccessFrame.current()
+
+        with frame.state_lock:
+            for prop in props.values():
+                if not prop.is_event_prop:
+                    frame.reset_state(self._key, prop.name)
+
+    def reset_component_delayed(self, delay=1):
+        """
+        Like `reset_prop_delayed` but resets all component props.
+        """
+
+        from .components.task import run_asynchronously
+
+        async def reset_delayed():
+            await asyncio.sleep(delay)
+            self.reset_component()
+
+        def cb(result=None, error=None):
+            pass
+
+        run_asynchronously(cb, reset_delayed)
+
 
 class BaseState(Component):
     """

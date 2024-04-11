@@ -58,6 +58,10 @@ class StateAccessFrame(Frame):
     against resetting event props.
     """
 
+    @property
+    def state_lock(self):
+        return self._app_runner.state.state_lock
+
     def get_state(self, key, prop_name):
         return self._app_runner.state._get(key, prop_name)
 
