@@ -61,11 +61,12 @@ class Plugin extends HTMLElement {
     await Promise.all(scriptPromises);
 
     this.connected = true;
-    this.updateFunction = pluginRegistry[pluginName](
-      this.getAttribute("id"),
-      this.shadowRoot,
-      this.initialProps
-    );
+    this.updateFunction = pluginRegistry[pluginName]({
+      key: this.getAttribute("id"),
+      domElement: this.shadowRoot,
+      initialProps: this.initialProps,
+      assetsRoot: this.component.assetsRoot,
+    });
     this.initialProps = {};
   }
 
