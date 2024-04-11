@@ -28,9 +28,6 @@ class PluginAssetsCollector(type):
             assets_root = getattr(klass, "_assets_root", None)
             asset_descriptions = getattr(klass, "_assets", None)
 
-            if not asset_descriptions:
-                raise Exception(f"Plugin {plugin_name} does not specify any `_assets`.")
-
             def check_assets_root():
                 if not assets_root:
                     raise Exception(
@@ -54,6 +51,12 @@ class PluginAssetsCollector(type):
                     return ("js-link", asset)
                 else:
                     raise Exception(f"Asset with unknown extension: {asset}")
+
+            if not asset_descriptions:
+                raise Exception(f"Plugin {plugin_name} does not specify any `_assets`.")
+
+            if assets_root:
+                check_assets_root()
 
             assets_config = dict(
                 assets_root=assets_root,
@@ -123,14 +126,19 @@ class Plugin(Component, Styled, metaclass=PluginAssetsCollector):
         klass = type(self)
         plugin_name = getattr(klass, "_name", None) or klass.__name__
 
-        asset_paths = PluginAssetsCollector.plugin_assets.get(plugin_name, {}).get(
-            "assets", []
-        )
+        plugin_config = PluginAssetsCollector.plugin_assets.get(plugin_name, {})
+
+        assets_root = plugin_config.get("assets_root")
+        assets_paths = plugin_config.get("assets", [])
 
         output = super().render()
+
+        if assets_root:
+            output["assetsRoot"] = f"{PLUGINS_PREFIX}/{plugin_name}"
+
         output["assets"] = []
 
-        for asset_type, asset_path in asset_paths:
+        for asset_type, asset_path in assets_paths:
             if asset_type in ("css", "js") or is_url(asset_path):
                 output["assets"].append((asset_type, asset_path))
             else:
