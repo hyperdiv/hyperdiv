@@ -10,9 +10,6 @@ window.hyperdiv = {
     }
     pluginRegistry[name] = callback;
   },
-  sendUpdate: (key, propName, propValue) => {
-    websocket.sendUpdate([key, propName, propValue]);
-  },
 };
 
 const loadScript = (scriptType, script) => {
