@@ -3,9 +3,9 @@
   "version": "0.1.7",
   "private": true,
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
-    "start": "sirv public --no-clear"
+    "build": "node_modules/.bin/rollup -c",
+    "dev": "node_modules/.bin/rollup -c -w",
+    "start": "node_modules/.bin/sirv public --no-clear"
   },
   "devDependencies": {
     "@rollup/plugin-babel": "^5.3.1",
