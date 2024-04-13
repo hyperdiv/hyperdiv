@@ -107,7 +107,7 @@ class Plugin(Component, Styled, metaclass=PluginAssetsCollector):
     This class can be subclassed to define custom Hyperdiv components,
     with custom Javascript, CSS, and other assets, such as images.
 
-    See [here](/reference/plugins) for a detailed dive into how
+    See [here](/guide/plugins) for a detailed dive into how
     plugins work.
     """
 
