@@ -14,24 +14,27 @@ window.hyperdiv = {
 
 const loadScript = (scriptType, script) => {
   if (script in pluginScriptCache) {
-    return pluginScriptCache[script];
+    return pluginScriptCache[script].promise;
   }
-  const ret = new Promise((resolve) => {
-    const scriptTag = document.createElement("script");
+  const element = document.createElement("script");
+  const promise = new Promise((resolve) => {
     if (scriptType === "js-link") {
-      scriptTag.src = script;
-      scriptTag.onload = () => {
+      element.src = script;
+      element.onload = () => {
         resolve();
       };
     } else if (scriptType === "js") {
       const body = document.createTextNode(script);
-      scriptTag.appendChild(body);
+      element.appendChild(body);
       resolve();
     }
-    document.head.appendChild(scriptTag);
+    document.head.appendChild(element);
   });
-  pluginScriptCache[script] = ret;
-  return ret;
+  pluginScriptCache[script] = {
+    promise,
+    element,
+  };
+  return promise;
 };
 
 class PluginContext {
@@ -123,5 +126,8 @@ customElements.define("hyperdiv-plugin", Plugin);
 
 export const clearPluginCache = () => {
   pluginRegistry = {};
+  for (const script of Object.values(pluginScriptCache)) {
+    script.element.remove();
+  }
   pluginScriptCache = {};
 };
