@@ -10,7 +10,6 @@ import { updateStyle, removeStyles, removeAllStyles } from "./css.js";
 import { singletons, getInitialUpdates } from "./singletons.js";
 import { applyPendingCallbacks } from "./next-update.js";
 import { executeCommands } from "./commands.js";
-import { clearPluginCache } from "./plugins.js";
 import { locationSingleton } from "./singletons/location-singleton.js";
 import {
   getScrollPositions,
@@ -115,7 +114,6 @@ const updateCaches = (cache, styleCache) => {
 const setRootDom = (dom) => {
   // First, clear the existing element cache, plugin cache, and style
   // cache.
-  clearPluginCache();
   elementCache = {};
   removeAllStyles();
 
