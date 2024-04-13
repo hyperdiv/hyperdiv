@@ -37,14 +37,36 @@ const loadScript = (scriptType, script) => {
   return ret;
 };
 
+class PluginContext {
+  constructor(key, domElement, initialProps, assetsRoot) {
+    this.key = key;
+    this.domElement = domElement;
+    this.initialProps = initialProps;
+    this.assetsRoot = assetsRoot;
+    this.updateCallback = () => {};
+  }
+
+  updateProp(propName, propValue) {
+    websocket.sendUpdate([this.key, propName, propValue]);
+  }
+
+  resetProp(propName) {
+    websocket.sendUpdate([this.key, propName, "$reset"]);
+  }
+
+  onPropUpdate(cb) {
+    this.updateCallback = cb;
+  }
+}
+
 class Plugin extends HTMLElement {
   constructor() {
     super();
     this.component = null;
     this.connected = false;
     this.initialProps = {};
-    this.updateFunction = null;
     this.attachShadow({ mode: "open" });
+    this.pluginContext = null;
   }
 
   async connectedCallback() {
@@ -61,12 +83,16 @@ class Plugin extends HTMLElement {
     await Promise.all(scriptPromises);
 
     this.connected = true;
-    this.updateFunction = pluginRegistry[pluginName]({
-      key: this.getAttribute("id"),
-      domElement: this.shadowRoot,
-      initialProps: this.initialProps,
-      assetsRoot: this.component.assetsRoot,
-    });
+
+    this.pluginContext = new PluginContext(
+      this.getAttribute("id"),
+      this.shadowRoot,
+      this.initialProps,
+      this.component.assetsRoot
+    );
+
+    pluginRegistry[pluginName](this.pluginContext);
+
     this.initialProps = {};
   }
 
@@ -91,7 +117,7 @@ class Plugin extends HTMLElement {
     if (!this.connected) {
       this.initialProps[propName] = propValue;
     } else {
-      this.updateFunction(propName, propValue);
+      this.pluginContext.updateCallback(propName, propValue);
     }
   }
 }
