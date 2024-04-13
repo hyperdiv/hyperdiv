@@ -227,7 +227,17 @@ class UIUpdatesFrame(StateAccessFrame):
         self.event_mutations = set()
 
     def update_state(self, key, prop_name, value):
-        prop = self._app_runner.state.get_prop(key, prop_name)
+        try:
+            prop = self._app_runner.state.get_prop(key, prop_name)
+        except KeyError:
+            # This can happen when developing. When saving a python
+            # file and the server is restarted, the browser may have a
+            # lingering update in the websocket queue, or an event
+            # handler may fire right before its element is torn down,
+            # corresponding to a component key that no longer exists
+            # in the updated code.
+            logger.warn(f"Ignoring UI update on nonexistent key {key}.")
+            return
 
         updated = self._app_runner.state._update(key, prop_name, value)
         if updated:
