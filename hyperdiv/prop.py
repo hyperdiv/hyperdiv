@@ -25,6 +25,7 @@ class Prop:
         default_value=None,
         name=None,
         ui_name=None,
+        camlcase_ui_name=True,
         backend_immutable=False,
         internal=False,
     ):
@@ -32,6 +33,7 @@ class Prop:
         self.default_value = default_value
         self.name = name
         self.ui_name = ui_name
+        self.camlcase_ui_name = camlcase_ui_name
         self.backend_immutable = backend_immutable
         self.internal = internal
 
@@ -70,6 +72,7 @@ class StoredProp:
 
         self.name = prop.name
         self.ui_name = prop.ui_name
+        self.camlcase_ui_name = prop.camlcase_ui_name
         self.prop_type = prop.prop_type
         self.default_value = prop.default_value
         self.backend_immutable = prop.backend_immutable
@@ -101,7 +104,12 @@ class StoredProp:
         # are named `type` and `open` which are Python
         # keywords/built-ins. In that case, they'll be named
         # `item_type`, `opened` etc. on the Python side.
-        self.ui_name = to_caml_case(prop.ui_name or prop.name)
+        if prop.ui_name:
+            self.ui_name = prop.ui_name
+        elif self.camlcase_ui_name:
+            self.ui_name = to_caml_case(prop.name)
+        else:
+            self.ui_name = prop.name
 
     def init(self, value):
         """Called on every frame."""

@@ -1,6 +1,10 @@
+import glob
 from urllib.parse import urlparse
 import os
 from .component_base import Component
+from .component_mixins.styled import Styled
+
+PLUGINS_PREFIX = "/hyperdiv-plugins"
 
 
 def is_url(s):
@@ -13,7 +17,7 @@ def is_url(s):
 
 
 class PluginAssetsCollector(type):
-    plugin_assets: dict[str, str] = dict()
+    plugin_assets: dict = dict()
 
     def __new__(cls, clsname, bases, attrs):
         klass = super().__new__(cls, clsname, bases, attrs)
@@ -21,53 +25,140 @@ class PluginAssetsCollector(type):
         if clsname != "Plugin":
             plugin_name = getattr(klass, "_name", None) or klass.__name__
 
-            for typ, asset in klass._assets:
-                if typ in ("css-link", "js-link"):
-                    if is_url(asset):
+            assets_root = getattr(klass, "_assets_root", None)
+            asset_descriptions = getattr(klass, "_assets", None)
+
+            def check_assets_root():
+                if not assets_root:
+                    raise Exception(
+                        f"Plugin {plugin_name} does not specify an `_assets_root`"
+                    )
+
+                if not os.path.exists(assets_root):
+                    raise Exception(
+                        f"Plugin {plugin_name} `_assets_root` {assets_root} does not exist."
+                    )
+
+                if not os.path.isabs(assets_root):
+                    raise Exception(
+                        f"Plugin {plugin_name} `_assets_root` {assets_root} is not an absolute path."
+                    )
+
+            def infer_asset_from_extension(asset):
+                if asset.lower().endswith(".css"):
+                    return ("css-link", asset)
+                elif asset.lower().endswith(".js"):
+                    return ("js-link", asset)
+                else:
+                    raise Exception(f"Asset with unknown extension: {asset}")
+
+            if not asset_descriptions:
+                raise Exception(f"Plugin {plugin_name} does not specify any `_assets`.")
+
+            if assets_root:
+                check_assets_root()
+
+            assets_config = dict(
+                assets_root=assets_root,
+                assets=[],
+            )
+
+            for asset_description in asset_descriptions:
+                if isinstance(asset_description, tuple):
+                    if len(asset_description) != 2:
+                        raise Exception(f"Invalid asset: {asset_description}")
+                    typ, asset_path = asset_description
+                    if typ in ("js", "css"):
+                        assets_config["assets"].append(asset_description)
                         continue
-                    if not os.path.exists(asset):
+                    if typ not in ("css-link", "js-link"):
+                        raise Exception(f"Invalid asset type: {typ}")
+                    if not is_url(asset_path):
+                        check_assets_root()
+                        path = os.path.join(assets_root, asset_path)
+                        if not os.path.exists(path):
+                            raise Exception(
+                                f"Plugin asset path {asset_path} does not exist."
+                            )
+                    assets_config["assets"].append(asset_description)
+                elif is_url(asset_description):
+                    assets_config["assets"].append(
+                        infer_asset_from_extension(asset_description)
+                    )
+                else:
+                    check_assets_root()
+                    paths = glob.glob(
+                        asset_description, root_dir=assets_root, recursive=True
+                    )
+                    if not paths:
                         raise Exception(
-                            f'Asset "{asset}" is neither a URL nor a local file.'
+                            f"Asset description {asset_description} did not match any files."
                         )
-                    file_name = os.path.split(asset)[1]
-                    PluginAssetsCollector.plugin_assets[
-                        f"{plugin_name}/{file_name}"
-                    ] = asset
+                    for path in paths:
+                        assets_config["assets"].append(infer_asset_from_extension(path))
+
+            PluginAssetsCollector.plugin_assets[plugin_name] = assets_config
 
         return klass
 
 
-class Plugin(Component, metaclass=PluginAssetsCollector):
+class Plugin(Component, Styled, metaclass=PluginAssetsCollector):
+    """
+    This class can be subclassed to define custom Hyperdiv components,
+    with custom Javascript, CSS, and other assets, such as images.
+
+    See [here](/guide/plugins) for a detailed dive into how
+    plugins work.
+    """
+
     _tag = "hyperdiv-plugin"
+    _camlcase_props = False
 
     @staticmethod
     def js(asset):
+        """Helper to define an inline Javascript asset."""
         return ("js", asset)
 
     @staticmethod
     def css(asset):
+        """Helper to define an inline CSS asset."""
         return ("css", asset)
 
     @staticmethod
     def js_link(asset):
+        """Helper to define a Javascript link asset."""
         return ("js-link", asset)
 
     @staticmethod
     def css_link(asset):
+        """Helper to define a CSS link asset."""
         return ("css-link", asset)
 
     def render(self):
-        reverse_map = {
-            value: key for key, value in PluginAssetsCollector.plugin_assets.items()
-        }
+        """
+        The JSON-rendered form of the plugin that is sent to the browser.
+        """
+        klass = type(self)
+        plugin_name = getattr(klass, "_name", None) or klass.__name__
+
+        plugin_config = PluginAssetsCollector.plugin_assets.get(plugin_name, {})
+
+        assets_root = plugin_config.get("assets_root")
+        assets_paths = plugin_config.get("assets", [])
 
         output = super().render()
-        assets = type(self)._assets
-        output["assets"] = [
-            (
-                asset_type,
-                f"/plugins/{reverse_map[asset]}" if asset in reverse_map else asset,
-            )
-            for (asset_type, asset) in assets
-        ]
+
+        if assets_root:
+            output["assetsRoot"] = f"{PLUGINS_PREFIX}/{plugin_name}"
+
+        output["assets"] = []
+
+        for asset_type, asset_path in assets_paths:
+            if asset_type in ("css", "js") or is_url(asset_path):
+                output["assets"].append((asset_type, asset_path))
+            else:
+                output["assets"].append(
+                    (asset_type, f"{PLUGINS_PREFIX}/{plugin_name}/{asset_path}")
+                )
+
         return output

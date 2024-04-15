@@ -3,6 +3,7 @@ from .debug import logger
 from .cache import cached
 from .index_page import index_page
 from .equalities import register_equality
+from .component_mixins import Boxy, Styled, Interactive, Slottable, Togglable
 from .design_tokens import (
     Spacing,
     Shadow,

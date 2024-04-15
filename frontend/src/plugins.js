@@ -10,32 +10,54 @@ window.hyperdiv = {
     }
     pluginRegistry[name] = callback;
   },
-  sendUpdate: (key, propName, propValue) => {
-    websocket.sendUpdate([key, propName, propValue]);
-  },
 };
 
 const loadScript = (scriptType, script) => {
   if (script in pluginScriptCache) {
-    return pluginScriptCache[script];
+    return pluginScriptCache[script].promise;
   }
-  const ret = new Promise((resolve) => {
-    const scriptTag = document.createElement("script");
+  const element = document.createElement("script");
+  const promise = new Promise((resolve) => {
     if (scriptType === "js-link") {
-      scriptTag.src = script;
-      scriptTag.onload = () => {
+      element.src = script;
+      element.onload = () => {
         resolve();
       };
     } else if (scriptType === "js") {
       const body = document.createTextNode(script);
-      scriptTag.appendChild(body);
+      element.appendChild(body);
       resolve();
     }
-    document.head.appendChild(scriptTag);
+    document.head.appendChild(element);
   });
-  pluginScriptCache[script] = ret;
-  return ret;
+  pluginScriptCache[script] = {
+    promise,
+    element,
+  };
+  return promise;
 };
+
+class PluginContext {
+  constructor(key, domElement, initialProps, assetsRoot) {
+    this.key = key;
+    this.domElement = domElement;
+    this.initialProps = initialProps;
+    this.assetsRoot = assetsRoot;
+    this.updateCallback = () => {};
+  }
+
+  updateProp(propName, propValue) {
+    websocket.sendUpdate([this.key, propName, propValue]);
+  }
+
+  resetProp(propName) {
+    websocket.sendUpdate([this.key, propName, "$reset"]);
+  }
+
+  onPropUpdate(cb) {
+    this.updateCallback = cb;
+  }
+}
 
 class Plugin extends HTMLElement {
   constructor() {
@@ -43,8 +65,8 @@ class Plugin extends HTMLElement {
     this.component = null;
     this.connected = false;
     this.initialProps = {};
-    this.updateFunction = null;
     this.attachShadow({ mode: "open" });
+    this.pluginContext = null;
   }
 
   async connectedCallback() {
@@ -61,11 +83,16 @@ class Plugin extends HTMLElement {
     await Promise.all(scriptPromises);
 
     this.connected = true;
-    this.updateFunction = pluginRegistry[pluginName](
+
+    this.pluginContext = new PluginContext(
       this.getAttribute("id"),
       this.shadowRoot,
-      this.initialProps
+      this.initialProps,
+      this.component.assetsRoot
     );
+
+    pluginRegistry[pluginName](this.pluginContext);
+
     this.initialProps = {};
   }
 
@@ -90,7 +117,7 @@ class Plugin extends HTMLElement {
     if (!this.connected) {
       this.initialProps[propName] = propValue;
     } else {
-      this.updateFunction(propName, propValue);
+      this.pluginContext.updateCallback(propName, propValue);
     }
   }
 }
@@ -99,5 +126,8 @@ customElements.define("hyperdiv-plugin", Plugin);
 
 export const clearPluginCache = () => {
   pluginRegistry = {};
+  for (const script of Object.values(pluginScriptCache)) {
+    script.element.remove();
+  }
   pluginScriptCache = {};
 };
