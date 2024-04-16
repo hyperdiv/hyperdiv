@@ -125,9 +125,6 @@ def test_assets_in_index_page():
         in page
     )
 
-    def normalize_spaces(s):
-        return
-
     def contains_normalized(substring, string):
         normalized_substring = re.sub(r"\s+", " ", substring).strip()
         normalized_string = re.sub(r"\s+", " ", string).strip()
