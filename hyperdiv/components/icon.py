@@ -32,6 +32,7 @@ class icon(Component, Styled):
 
     """
 
+    _name = "icon"
     _tag = "sl-icon"
 
     # The name of the icon.

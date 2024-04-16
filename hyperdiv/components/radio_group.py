@@ -86,6 +86,7 @@ class radio_group(Component, Styled):
     ```
     """
 
+    _name = "radio_group"
     _tag = "sl-radio-group"
 
     # The visible label of the group.

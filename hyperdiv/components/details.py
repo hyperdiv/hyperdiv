@@ -67,6 +67,7 @@ class details(Component, Styled, Togglable):
     ```
     """
 
+    _name = "details"
     _tag = "sl-details"
 
     disabled = Prop(Bool, False)

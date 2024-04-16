@@ -15,6 +15,7 @@ class breadcrumb_item(LabelComponent, Interactive):
     @component(link).
     """
 
+    _name = "breadcrumb_item"
     _tag = "sl-breadcrumb-item"
 
     # A path to navigate to when clicked.

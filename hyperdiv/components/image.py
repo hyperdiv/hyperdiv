@@ -76,6 +76,7 @@ class image(Component, Styled, Interactive):
     constructor, they will automatically be converted to base64.
     """
 
+    _name = "image"
     _tag = "img"
 
     # The source path or URL of the image.

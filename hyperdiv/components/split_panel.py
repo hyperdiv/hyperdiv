@@ -106,6 +106,7 @@ class split_panel(Component, Styled):
 
     """
 
+    _name = "split_panel"
     _tag = "sl-split-panel"
     _has_direct_children = False
 

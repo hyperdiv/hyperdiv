@@ -15,6 +15,7 @@ class icon_button(icon, Interactive):
     ```
     """
 
+    _name = "icon_button"
     _tag = "sl-icon-button"
 
     # Whether the icon button is disabled.

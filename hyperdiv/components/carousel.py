@@ -52,6 +52,7 @@ class carousel(Component, Styled):
 
     """
 
+    _name = "carousel"
     _tag = "sl-carousel"
 
     # Whether to loop continuously when `autoplay` is `True`.

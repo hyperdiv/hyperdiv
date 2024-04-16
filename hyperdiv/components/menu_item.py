@@ -27,6 +27,7 @@ class menu_item(LabelComponent, Interactive):
 
     """
 
+    _name = "menu_item"
     _tag = "sl-menu-item"
 
     # When the value of this prop is `"checkbox"`, the manu item is

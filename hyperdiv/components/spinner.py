@@ -24,6 +24,7 @@ class spinner(Component, Slottable):
     ```
     """
 
+    _name = "spinner"
     _tag = "sl-spinner"
 
     # The width of the background spinner track.

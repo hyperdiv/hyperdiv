@@ -16,6 +16,8 @@ class plaintext(Component):
     ```
     """
 
+    _name = "plaintext"
+
     # The text content.
     content = Prop(String, "")
 

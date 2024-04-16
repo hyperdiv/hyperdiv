@@ -8,6 +8,7 @@ class media_source(Component):
     A media source usable with @component(video) and @component(audio).
     """
 
+    _name = "media_source"
     _tag = "source"
 
     # A local or remote path to an audio or video file.

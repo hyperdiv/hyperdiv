@@ -28,6 +28,7 @@ class progress_ring(LabelComponent):
 
     """
 
+    _name = "progress_ring"
     _tag = "sl-progress-ring"
 
     # The value of the progress ring. 0 indicates an empty ring, and

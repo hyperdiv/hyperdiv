@@ -21,6 +21,7 @@ class theme(BrowserSingleton):
     ```
     """
 
+    _name = "theme"
     _key = "theme"
 
     # The current system theme setting. This prop is automatically,

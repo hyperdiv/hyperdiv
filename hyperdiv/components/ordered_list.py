@@ -30,6 +30,7 @@ class ordered_list(list_base):
     ```
     """
 
+    _name = "ordered_list"
     _tag = "ol"
 
     style_type = Prop(

@@ -32,6 +32,7 @@ class window(BrowserSingleton):
 
     """
 
+    _name = "window"
     _key = "window"
 
     # Whether the browser window was resized.

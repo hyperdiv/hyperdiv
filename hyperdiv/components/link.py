@@ -66,6 +66,7 @@ class link(box, Interactive):
 
     """
 
+    _name = "link"
     _tag = "a"
 
     # The path or URL to navigate to when clicking the link.

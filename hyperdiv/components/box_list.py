@@ -43,6 +43,7 @@ class box_list(box):
 
     """
 
+    _name = "box_list"
     _tag = "ul"
     _classes = box._classes + ["box-list"]
 

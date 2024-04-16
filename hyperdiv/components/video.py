@@ -51,6 +51,7 @@ class video(MediaBase):
 
     """
 
+    _name = "video"
     _tag = "video"
 
     # The width of the video in pixels. If non-`None`, it sets the `width`

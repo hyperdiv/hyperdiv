@@ -4,8 +4,6 @@ from ..slot import Slot
 from ..component_mixins.togglable import Togglable
 from ..style_part import BasePart, StylePart
 from .common.label_component import LabelComponent
-from .common.text_utils import concat_text
-from .text import text
 
 
 class drawer(LabelComponent, Togglable):
@@ -78,6 +76,7 @@ class drawer(LabelComponent, Togglable):
     @component(icon_button)s in that box.
     """
 
+    _name = "drawer"
     _tag = "sl-drawer"
 
     # Where the drawer opens from:

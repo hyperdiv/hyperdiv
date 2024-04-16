@@ -2,9 +2,7 @@ from ..prop_types import CSSField, ClampedFloat, Bool, String, Color, Size
 from ..prop import Prop
 from .common.label_component import LabelComponent
 from ..style_part import BasePart, StylePart
-from .common.text_utils import concat_text
 from .common.shoelace_types import ProgressTrackColor, ProgressIndicatorColor
-from .plaintext import plaintext
 
 
 class progress_bar(LabelComponent):
@@ -56,6 +54,7 @@ class progress_bar(LabelComponent):
 
     """
 
+    _name = "progress_bar"
     _tag = "sl-progress-bar"
 
     value = Prop(ClampedFloat(0, 100), 0)

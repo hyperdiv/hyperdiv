@@ -7,4 +7,5 @@ class list_item(LabelComponent):
     Not useful on its own.
     """
 
+    _name = "list_item"
     _tag = "li"

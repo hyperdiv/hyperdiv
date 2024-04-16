@@ -69,6 +69,7 @@ class tree(Component, Styled):
 
     """
 
+    _name = "tree"
     _tag = "sl-tree"
 
     # The selection type.

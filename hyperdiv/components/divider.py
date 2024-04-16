@@ -28,6 +28,7 @@ class divider(Component, Styled):
 
     """
 
+    _name = "divider"
     _tag = "sl-divider"
     _has_direct_children = False
 

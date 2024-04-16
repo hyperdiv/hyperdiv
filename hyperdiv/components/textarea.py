@@ -22,6 +22,7 @@ class textarea(LabelComponent):
     ```
     """
 
+    _name = "textarea"
     _tag = "sl-textarea"
 
     value = Prop(String, "")

@@ -60,6 +60,7 @@ class button(LabelComponent, Interactive):
     ```
     """
 
+    _name = "button"
     _tag = "sl-button"
 
     # The button variant.

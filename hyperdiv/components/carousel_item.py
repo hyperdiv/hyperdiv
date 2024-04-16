@@ -10,6 +10,7 @@ class carousel_item(Component, Styled):
     To be used with @component(carousel).
     """
 
+    _name = "carousel_item"
     _tag = "sl-carousel-item"
 
     aspect_ratio = Prop(CarouselAspectRatio)

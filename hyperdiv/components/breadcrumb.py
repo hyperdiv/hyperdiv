@@ -27,6 +27,7 @@ class breadcrumb(Component, Styled):
 
     """
 
+    _name = "breadcrumb"
     _tag = "sl-breadcrumb"
 
     # An invisible label that helps voice navigation.

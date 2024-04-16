@@ -20,6 +20,7 @@ class menu_label(LabelComponent):
     ```
     """
 
+    _name = "menu_label"
     _tag = "sl-menu-label"
 
     base_style = Prop(BasePart())

@@ -113,6 +113,7 @@ class markdown(Component, Boxy, Styled):
 
     """
 
+    _name = "markdown"
     _tag = "div"
     _classes = ["markdown"]
 

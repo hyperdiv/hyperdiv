@@ -81,6 +81,7 @@ class popup(Component):
 
     """
 
+    _name = "popup"
     _tag = "sl-popup"
 
     # The visibility of the popup.

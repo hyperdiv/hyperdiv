@@ -6,7 +6,6 @@ from .common.shoelace_types import ShoelaceSize
 from ..style_part import BasePart, StylePart
 from .common.label_component import LabelComponent
 from .common.text_utils import concat_text
-from .text import text
 from .option import option
 from .icon import icon
 from .scope import scope
@@ -56,6 +55,7 @@ class select(LabelComponent, Togglable):
 
     """
 
+    _name = "select"
     _tag = "sl-select"
 
     # The name of the select. Relevant when using select in a

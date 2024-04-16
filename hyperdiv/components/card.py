@@ -44,6 +44,7 @@ class card(Component, Styled):
 
     """
 
+    _name = "card"
     _tag = "sl-card"
 
     # The card's border color.

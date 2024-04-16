@@ -21,6 +21,7 @@ class avatar(Component, Styled, Interactive):
 
     """
 
+    _name = "avatar"
     _tag = "sl-avatar"
 
     # The path or URL of an image to render in the avatar.

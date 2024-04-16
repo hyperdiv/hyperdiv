@@ -20,6 +20,7 @@ class dialog(LabelComponent, Togglable):
 
     """
 
+    _name = "dialog"
     _tag = "sl-dialog"
 
     label_slot = Slot(ui_name="label")

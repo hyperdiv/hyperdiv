@@ -65,6 +65,7 @@ class tab_group(Component, Styled):
     ```
     """
 
+    _name = "tab_group"
     _tag = "sl-tab-group"
 
     # The placement of the tabs:

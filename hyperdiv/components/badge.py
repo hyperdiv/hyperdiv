@@ -23,6 +23,7 @@ class badge(LabelComponent, Interactive):
     ```
     """
 
+    _name = "badge"
     _tag = "sl-badge"
 
     # The variant of the badge.

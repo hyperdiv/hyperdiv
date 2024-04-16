@@ -21,6 +21,7 @@ class radio_button(LabelComponent):
     ```
     """
 
+    _name = "radio_button"
     _tag = "sl-radio-button"
 
     # The value of the radio button. By default, if `value` isn't

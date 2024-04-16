@@ -48,4 +48,5 @@ class audio(MediaBase):
     ```
     """
 
+    _name = "audio"
     _tag = "audio"

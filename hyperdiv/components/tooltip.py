@@ -56,6 +56,7 @@ class tooltip(Component, Styled, Togglable):
 
     """
 
+    _name = "tooltip"
     _tag = "sl-tooltip"
 
     # The text rendered in the tooltip.

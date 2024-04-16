@@ -31,6 +31,7 @@ class tree_item(LabelComponent):
 
     """
 
+    _name = "tree_item"
     _tag = "sl-tree-item"
 
     # Whether the tree node is expanded.

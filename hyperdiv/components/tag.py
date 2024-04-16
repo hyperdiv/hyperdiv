@@ -4,8 +4,6 @@ from ..component_mixins.interactive import Interactive
 from ..style_part import BasePart, StylePart
 from .common.label_component import LabelComponent
 from .common.shoelace_types import ShoelaceSize
-from .common.text_utils import concat_text
-from .plaintext import plaintext
 
 
 class tag(LabelComponent, Interactive):
@@ -46,6 +44,7 @@ class tag(LabelComponent, Interactive):
 
     """
 
+    _name = "tag"
     _tag = "sl-tag"
 
     # The variant of the tag.

@@ -22,6 +22,7 @@ class checkbox(LabelComponent):
 
     """
 
+    _name = "checkbox"
     _tag = "sl-checkbox"
 
     # The internal name of the checkbox. This is pertinent when using

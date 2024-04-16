@@ -30,6 +30,7 @@ class list(list_base):
     ```
     """
 
+    _name = "list"
     _tag = "ul"
 
     style_type = Prop(

@@ -4,7 +4,6 @@ from ..slot import Slot
 from ..style_part import BasePart, StylePart
 from .common.label_component import LabelComponent
 from .common.text_utils import concat_text
-from .text import text
 
 
 class slider(LabelComponent):
@@ -54,6 +53,7 @@ class slider(LabelComponent):
 
     """
 
+    _name = "slider"
     _tag = "sl-range"
 
     # The name of the component. If `name` is not provided, it is set

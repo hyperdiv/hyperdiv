@@ -47,6 +47,7 @@ class color_picker(Component, Slottable):
 
     """
 
+    _name = "color_picker"
     _tag = "sl-color-picker"
     _has_direct_children = False
 

@@ -12,4 +12,5 @@ class nav(box):
 
     """
 
+    _name = "nav"
     _tag = "nav"

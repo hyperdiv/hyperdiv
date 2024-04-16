@@ -15,6 +15,7 @@ class switch(LabelComponent):
     ```
     """
 
+    _name = "switch"
     _tag = "sl-switch"
 
     # The name of the switch, which is relevant when a switch is used

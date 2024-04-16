@@ -82,6 +82,7 @@ class text_input(LabelComponent):
     ```
     """
 
+    _name = "text_input"
     _tag = "sl-input"
     _has_direct_children = False
 

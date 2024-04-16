@@ -23,6 +23,7 @@ class anchor(Component):
     ```
     """
 
+    _name = "anchor"
     _tag = "a"
 
     def __init__(self, name):

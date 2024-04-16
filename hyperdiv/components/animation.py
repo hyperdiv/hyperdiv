@@ -199,6 +199,7 @@ class animation(Component, Slottable):
     <sl-badge variant="danger">Experimental</sl-badge>
     """
 
+    _name = "animation"
     _tag = "sl-animation"
 
     name = Prop(OneOf(*animation_names), "fadeIn")

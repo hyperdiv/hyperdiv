@@ -31,4 +31,4 @@ class box_list_item(list_item, box):
 
     """
 
-    pass
+    _name = "box_list_item"

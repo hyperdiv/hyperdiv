@@ -183,6 +183,7 @@ class box(Component, Boxy, Styled):
 
     """
 
+    _name = "box"
     _tag = "div"
     _classes = ["box"]
 

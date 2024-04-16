@@ -271,6 +271,7 @@ class form(box):
 
     """
 
+    _name = "form"
     _tag = "form"
 
     # Disable frontend validation, since Hyperdiv forms are validated

@@ -6,7 +6,6 @@ from ..style_part import BasePart, StylePart
 from .common.label_component import LabelComponent
 from .common.text_utils import concat_text
 from .icon import icon
-from .plaintext import plaintext
 
 
 class option(LabelComponent, Styled):
@@ -22,6 +21,7 @@ class option(LabelComponent, Styled):
     ```
     """
 
+    _name = "option"
     _tag = "sl-option"
 
     # The value of the option. By default it is set to its label.

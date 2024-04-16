@@ -86,6 +86,7 @@ class location(BrowserSingleton):
     navigation.
     """
 
+    _name = "location"
     _key = "location"
 
     # The protocol part of the browser location bar.

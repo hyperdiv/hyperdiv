@@ -13,6 +13,7 @@ class tab(LabelComponent):
     @component(tab_group).
     """
 
+    _name = "tab"
     _tag = "sl-tab"
 
     # Whether this tab is the active tab.

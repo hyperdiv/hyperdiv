@@ -17,6 +17,7 @@ class clipboard(BrowserSingleton):
     inspect the current clipboard value.
     """
 
+    _name = "clipboard"
     _key = "clipboard"
 
     _value = Prop(Optional(String), ui_name="value")

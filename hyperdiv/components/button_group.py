@@ -19,6 +19,7 @@ class button_group(Component, Styled):
 
     """
 
+    _name = "button_group"
     _tag = "sl-button-group"
 
     # An invisible label that helps with accessibility.

@@ -28,6 +28,7 @@ class text(Component, Styled):
 
     """
 
+    _name = "text"
     _tag = "p"
 
     content = Prop(String, "")
@@ -60,7 +61,6 @@ class h1(text):
 
     """
 
-    _name = "text"
     _tag = "h1"
 
 
@@ -73,7 +73,6 @@ class h2(text):
     `hd.markdown("## Heading")`.
     """
 
-    _name = "text"
     _tag = "h2"
 
 
@@ -86,7 +85,6 @@ class h3(text):
     `hd.markdown("### Heading")`.
     """
 
-    _name = "text"
     _tag = "h3"
 
 
@@ -99,7 +97,6 @@ class h4(text):
     `hd.markdown("#### Heading")`.
     """
 
-    _name = "text"
     _tag = "h4"
 
 
@@ -112,5 +109,4 @@ class h5(text):
     `hd.markdown("##### Heading")`.
     """
 
-    _name = "text"
     _tag = "h5"

@@ -23,6 +23,7 @@ class image_comparer(Component, Styled):
     ```
     """
 
+    _name = "image_comparer"
     _tag = "sl-image-comparer"
     _has_direct_children = False
 

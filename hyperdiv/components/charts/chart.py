@@ -52,5 +52,7 @@ class chart(Component, Styled):
     ```
     """
 
+    _name = "chart"
+
     # The chart configuration
     config = Prop(Any, backend_immutable=True)

@@ -1,11 +1,8 @@
-from math import ceil
 from ..component_base import Component
 from ..component_mixins.styled import Styled
 from ..prop_types import CSSField, OneOf, Int
 from ..prop import Prop
-from .common.text_utils import concat_text
 from .common.label_component import LabelComponent
-from .plaintext import plaintext
 
 
 class table(Component, Styled):
@@ -66,6 +63,7 @@ class table(Component, Styled):
     ```
     """
 
+    _name = "table"
     _tag = "table"
 
     border_collapse = Prop(
@@ -89,6 +87,7 @@ class tr(Component, Styled):
     Its direct children should be @component(td)s.
     """
 
+    _name = "tr"
     _tag = "tr"
 
 
@@ -141,6 +140,7 @@ class td(LabelComponent):
     cell takes up one cell's worth of space.
     """
 
+    _name = "td"
     _tag = "td"
 
     # The horizontal/rightward span of this cell.
@@ -165,6 +165,7 @@ class thead(Component, Styled):
     Its direct children should be @component(tr)s.
     """
 
+    _name = "thead"
     _tag = "thead"
 
     def __init__(
@@ -188,6 +189,7 @@ class tfoot(Component, Styled):
     Its direct children should be @component(tr)s.
     """
 
+    _name = "tfoot"
     _tag = "tfoot"
 
     def __init__(
@@ -211,4 +213,5 @@ class tbody(Component, Styled):
     Its direct children should be @component(tr)s.
     """
 
+    _name = "tbody"
     _tag = "tbody"

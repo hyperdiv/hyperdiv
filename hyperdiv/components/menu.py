@@ -102,6 +102,7 @@ class menu(Component, Styled):
     ```
     """
 
+    _name = "menu"
     _tag = "sl-menu"
 
     _selected_item_key = Prop(StringEvent, "")

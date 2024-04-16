@@ -21,6 +21,7 @@ class alert(LabelComponent, Togglable):
     ```
     """
 
+    _name = "alert"
     _tag = "sl-alert"
 
     # Whether to render a close button, which closes the alert when

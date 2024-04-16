@@ -94,6 +94,7 @@ class dropdown(Component, Styled, Togglable):
 
     """
 
+    _name = "dropdown"
     _tag = "sl-dropdown"
 
     placement = Prop(ShoelacePlacement, "bottom-start")
