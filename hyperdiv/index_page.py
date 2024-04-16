@@ -145,8 +145,8 @@ def index_page(
     ```py-nodemo
     hd.run(main, index_page=hd.index_page(
         js_assets=[dict(
-            src="https://foo.com/remote-script.js?x=1",
             defer=True
+            src="https://foo.com/remote-script.js?x=1",
         )]
     ))
     ```
