@@ -200,10 +200,10 @@ def test_mixed_assets():
             _assets_root = plugin_dir
             _assets = [
                 "**/*.js",
-                "style.css",
+                "style.css?x=1",
                 Plugin.js(inline_js),
                 Plugin.css(inline_css),
-                "https://foo.com/script.js",
+                "https://foo.com/script.js?x=1#foo",
                 "https://foo.com/style.css",
             ]
 
@@ -216,8 +216,8 @@ def test_mixed_assets():
                 Plugin.js(inline_js),
                 Plugin.css(inline_css),
                 Plugin.js_link("a/b/c/plugin.js"),
-                Plugin.css_link("style.css"),
-                Plugin.js_link("https://foo.com/script.js"),
+                Plugin.css_link("style.css?x=1"),
+                Plugin.js_link("https://foo.com/script.js?x=1#foo"),
                 Plugin.css_link("https://foo.com/style.css"),
             ]
         )
@@ -229,8 +229,8 @@ def test_mixed_assets():
                 Plugin.js(inline_js),
                 Plugin.css(inline_css),
                 Plugin.js_link(f"{PLUGINS_PREFIX}/Plugin6/a/b/c/plugin.js"),
-                Plugin.css_link(f"{PLUGINS_PREFIX}/Plugin6/style.css"),
-                Plugin.js_link("https://foo.com/script.js"),
+                Plugin.css_link(f"{PLUGINS_PREFIX}/Plugin6/style.css?x=1"),
+                Plugin.js_link("https://foo.com/script.js?x=1#foo"),
                 Plugin.css_link("https://foo.com/style.css"),
             ]
         )

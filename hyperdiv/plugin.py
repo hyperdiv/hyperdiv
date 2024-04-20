@@ -16,6 +16,21 @@ def is_url(s):
         return False
 
 
+def get_path(s):
+    return urlparse(s).path
+
+
+def is_pure_path(s):
+    result = urlparse(s)
+    return result.path and not (
+        result.scheme
+        or result.netloc
+        or result.params
+        or result.query
+        or result.fragment
+    )
+
+
 class PluginAssetsCollector(type):
     plugin_assets: dict = dict()
 
@@ -45,9 +60,10 @@ class PluginAssetsCollector(type):
                     )
 
             def infer_asset_from_extension(asset):
-                if asset.lower().endswith(".css"):
+                asset_path = get_path(asset)
+                if asset_path.lower().endswith(".css"):
                     return ("css-link", asset)
-                elif asset.lower().endswith(".js"):
+                elif asset_path.lower().endswith(".js"):
                     return ("js-link", asset)
                 else:
                     raise Exception(f"Asset with unknown extension: {asset}")
@@ -67,21 +83,36 @@ class PluginAssetsCollector(type):
                 if isinstance(asset_description, tuple):
                     if len(asset_description) != 2:
                         raise Exception(f"Invalid asset: {asset_description}")
-                    typ, asset_path = asset_description
+                    typ, asset = asset_description
                     if typ in ("js", "css"):
                         assets_config["assets"].append(asset_description)
                         continue
                     if typ not in ("css-link", "js-link"):
                         raise Exception(f"Invalid asset type: {typ}")
-                    if not is_url(asset_path):
+                    if not is_url(asset):
                         check_assets_root()
-                        path = os.path.join(assets_root, asset_path)
-                        if not os.path.exists(path):
+                        asset_path = get_path(asset)
+                        if not os.path.exists(os.path.join(assets_root, asset_path)):
                             raise Exception(
                                 f"Plugin asset path {asset_path} does not exist."
                             )
                     assets_config["assets"].append(asset_description)
                 elif is_url(asset_description):
+                    assets_config["assets"].append(
+                        infer_asset_from_extension(asset_description)
+                    )
+                elif not is_pure_path(asset_description):
+                    check_assets_root()
+                    asset_path = get_path(asset_description)
+                    if not os.path.exists(os.path.join(assets_root, asset_path)):
+                        raise Exception(
+                            f"Plugin asset path {asset_path} does not exist."
+                        )
+                    print(
+                        asset_description,
+                        asset_path,
+                        infer_asset_from_extension(asset_description),
+                    )
                     assets_config["assets"].append(
                         infer_asset_from_extension(asset_description)
                     )
@@ -107,7 +138,7 @@ class Plugin(Component, Styled, metaclass=PluginAssetsCollector):
     This class can be subclassed to define custom Hyperdiv components,
     with custom Javascript, CSS, and other assets, such as images.
 
-    See [here](/guide/plugins) for a detailed dive into how
+    See [here](/extending-hyperdiv/plugins) for a detailed dive into how
     plugins work.
     """
 
