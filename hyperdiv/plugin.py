@@ -31,6 +31,26 @@ def is_pure_path(s):
     )
 
 
+def expand_assets_glob(assets_root, asset_description):
+    assets_root = os.path.realpath(assets_root)
+
+    current_dir = os.getcwd()
+    os.chdir(assets_root)
+    try:
+        paths = glob.glob(asset_description, recursive=True)
+
+        if not paths:
+            raise Exception(
+                f"Asset description {asset_description} did not match any files."
+            )
+        for path in paths:
+            if not os.path.realpath(path).startswith(assets_root):
+                raise Exception(f"Asset path {path} escapes directory {assets_root}.")
+        return paths
+    finally:
+        os.chdir(current_dir)
+
+
 class PluginAssetsCollector(type):
     plugin_assets: dict = dict()
 
@@ -118,13 +138,7 @@ class PluginAssetsCollector(type):
                     )
                 else:
                     check_assets_root()
-                    paths = glob.glob(
-                        asset_description, root_dir=assets_root, recursive=True
-                    )
-                    if not paths:
-                        raise Exception(
-                            f"Asset description {asset_description} did not match any files."
-                        )
+                    paths = expand_assets_glob(assets_root, asset_description)
                     for path in paths:
                         assets_config["assets"].append(infer_asset_from_extension(path))
 

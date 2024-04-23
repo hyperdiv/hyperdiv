@@ -262,3 +262,19 @@ def test_assets_root():
     rendered = p.render()
 
     assert "assetsRoot" not in rendered
+
+
+def test_assets_escape_root():
+    with tempfile.TemporaryDirectory() as plugin_dir:
+
+        with pytest.raises(Exception):
+
+            class Plugin9(Plugin):
+                _assets_root = plugin_dir
+                _assets = ["../*"]
+
+        with pytest.raises(Exception):
+
+            class Plugin10(Plugin):
+                _assets_root = plugin_dir
+                _assets = ["/*"]
