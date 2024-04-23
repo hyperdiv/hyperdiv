@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "hyperdiv"
-version = "0.1.7"
+version = "0.1.8"
 description = "Build reactive web UIs in pure Python"
 authors = ["Marius Nita <m@mariusnita.com>"]
 license = "Apache-2.0"
