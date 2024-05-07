@@ -16,10 +16,22 @@ const coverNode = createElementFromHTML(`
   </div>
 `);
 
+let slowConnection = false;
+
+const timeoutId = setTimeout(() => {
+  document.body.appendChild(coverNode);
+  slowConnection = true;
+}, 3000);
+
 websocket.on("connection-change", (connected) => {
   if (!connected) {
     document.body.appendChild(coverNode);
-  } else if (document.body.contains(coverNode)) {
-    document.body.removeChild(coverNode);
+  } else {
+    if (document.body.contains(coverNode)) {
+      document.body.removeChild(coverNode);
+    }
+    if (!slowConnection) {
+      clearTimeout(timeoutId);
+    }
   }
 });
