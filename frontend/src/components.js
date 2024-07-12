@@ -28,6 +28,7 @@ import { Chart } from "./components/chart.js";
 import { Checkbox } from "./components/checkbox.js";
 import { ColorPicker } from "./components/color-picker.js";
 import { Form } from "./components/form.js";
+import { FileInput } from "./components/file-input.js";
 import { ImageComparer } from "./components/image-comparer.js";
 import { Link } from "./components/link.js";
 import { Markdown } from "./components/markdown.js";
@@ -56,6 +57,7 @@ const mapping = {
   drawer: Drawer,
   dropdown: Dropdown,
   form: Form,
+  file_input: FileInput,
   icon_button: IconButton,
   image_comparer: ImageComparer,
   link: Link,

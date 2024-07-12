@@ -136,3 +136,4 @@ from .components.audio import audio
 from .components.video import video
 from .components.media_source import media_source
 from .components.popup import popup
+from .components.file_input import file_input

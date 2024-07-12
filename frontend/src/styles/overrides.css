@@ -3,6 +3,42 @@ html {
   font-size: var(--root-font-size);
 }
 
+input[type="file"] {
+  /*
+  * visuallyHidden class copied from:   ; HTML5 Boilerplate project:
+  * https://github.com/h5bp/html5-boilerplate/blob/9d6176a26ca4b70ab64a51d7abb9d3ebaa197855/dist/css/main.css#L135
+  *
+  * More: http://hugogiraudel.com/2016/10/13/css-hide-and-seek
+  */
+
+  /*
+  * Hide only visually, but have it available for screen readers:
+  * https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+  *
+  * 1. For long content, line feeds are not interpreted as spaces and small width
+  *    causes content to wrap 1 word per line:
+  *    https://medium.com/@jessebeach/beware-smushed-off-screen-accessible-text-5952a4c2cbfe
+  */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap; /* 1 */
+  clip-path: inset(50%);
+  border: 0;
+}
+
+.file-input-label {
+  display: flex;
+}
+
+.file-input-label:focus-within {
+  outline: 3px solid var(--sl-color-primary-700);
+  outline-offset: 1px;
+}
+
 sl-divider[vertical] {
   height: auto;
 }
