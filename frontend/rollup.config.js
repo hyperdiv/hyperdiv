@@ -1,5 +1,5 @@
 import livereload from "rollup-plugin-livereload";
-import { terser } from "rollup-plugin-terser";
+import terser from "@rollup/plugin-terser";
 import css from "rollup-plugin-import-css";
 import path from "path";
 import commonjs from "@rollup/plugin-commonjs";
@@ -24,7 +24,7 @@ function serve() {
         {
           stdio: ["ignore", "inherit", "inherit"],
           shell: true,
-        }
+        },
       );
 
       process.on("SIGTERM", toExit);
@@ -60,7 +60,7 @@ export default {
         {
           src: path.resolve(
             __dirname,
-            "node_modules/@shoelace-style/shoelace/dist/assets"
+            "node_modules/@shoelace-style/shoelace/dist/assets",
           ),
           dest: path.resolve(__dirname, "public/build/shoelace"),
         },
