@@ -58,7 +58,7 @@ const createDomNode = (hdNode, cache, styleCache) => {
 
   for (const eventHandler of eventHandlers) {
     elem.addEventListener(eventHandler.eventName, (event) =>
-      eventHandler.handler(key, event)
+      eventHandler.handler(key, event),
     );
   }
 
@@ -87,7 +87,7 @@ function saveAndRestoreScrollPositions() {
   setTimeout(() => {
     restoreScrollPositionsForLocation(
       locationSingleton.getString(),
-      scrollPositions
+      scrollPositions,
     );
   });
 }

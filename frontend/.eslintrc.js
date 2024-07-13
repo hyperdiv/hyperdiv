@@ -6,7 +6,7 @@ module.exports = {
   },
   extends: [
     "eslint:recommended",
-    "airbnb",
+    "airbnb-base",
     "prettier",
     "plugin:jsx-a11y/strict",
   ],
