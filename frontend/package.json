@@ -29,7 +29,7 @@
     "rollup-plugin-postcss": "^4.0.2"
   },
   "dependencies": {
-    "@shoelace-style/shoelace": "^2.15.0",
+    "@shoelace-style/shoelace": "^2.20.0",
     "chart.js": "^4.4.1",
     "chartjs-adapter-date-fns": "^3.0.0",
     "date-fns": "^2.30.0",

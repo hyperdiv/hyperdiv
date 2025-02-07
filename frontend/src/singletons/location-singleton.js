@@ -23,7 +23,7 @@ class LocationSingleton extends EventBus {
       if (this._updateLocation(newLocation)) {
         if (this.previousLocation) {
           const previousLocationString = this._getLocationString(
-            this.previousLocation
+            this.previousLocation,
           );
           saveScrollPositionsForLocation(previousLocationString);
           this.previousLocation = newLocation;
@@ -95,7 +95,7 @@ class LocationSingleton extends EventBus {
       }
       if (this.previousLocation) {
         const previousLocationString = this._getLocationString(
-          this.previousLocation
+          this.previousLocation,
         );
         saveScrollPositionsForLocation(previousLocationString);
       }
