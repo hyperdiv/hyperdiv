@@ -32,7 +32,7 @@ Hyperdiv requires Python 3.9+ and has been tested on macOS and Linux.
 
 ## Documentation
 
-After installing Hyperdiv, open the documentation app locally with the following command:
+You can find the documentation [here](https://docs.hyperdiv.io/introduction/overview), or run the documentation locally. To run locally,  install Hyperdiv, the open the documentation app with the following command:
 
 ```sh
 hyperdiv docs
