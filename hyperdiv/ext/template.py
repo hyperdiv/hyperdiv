@@ -25,6 +25,8 @@ class template:
     def __init__(
         self,
         logo=None,
+        logo_dark=None,
+        logo_light=None,
         title=None,
         sidebar=True,
         theme_switcher=True,
@@ -37,6 +39,12 @@ class template:
         * `logo`: The path to a logo image,
           e.g. `/assets/logo.svg`. The logo will be rendered in the
           top-left corner of the app.
+
+        * `logo_dark`: The path to a dark-mode logo image. If not
+            provided, the `logo` image will be used in dark mode.
+
+        * `logo_light`: The path to a light-mode logo image. If not
+            provided, the `logo` image will be used in light mode.
 
         * `title`: The title of the app, rendered in the top-left
           next to the logo.
@@ -63,6 +71,8 @@ class template:
         self._drawer = None
         self._drawer_title = None
         self._sidebar = None
+
+        theme = hd.theme()
 
         if sidebar:
             self._drawer = hd.drawer(
@@ -100,7 +110,7 @@ class template:
                         if sidebar and not wide:
                             if hd.icon_button("list").clicked:
                                 self._drawer.opened = not self._drawer.opened
-                        if logo or title:
+                        if logo or logo_dark or logo_light or title:
                             with hd.link(
                                 href="/",
                                 direction="horizontal",
@@ -108,8 +118,13 @@ class template:
                                 align="center",
                                 font_color="neutral-900",
                             ):
-                                if logo:
-                                    hd.image(logo, height=2)
+                                if logo or logo_dark or logo_light:
+                                    if theme.is_dark and logo_dark:
+                                        hd.image(logo_dark, height=2)
+                                    elif theme.is_light and logo_light:
+                                        hd.image(logo_light, height=2)
+                                    elif logo:
+                                        hd.image(logo, height=2)
                                 with hd.box() as self._app_title:
                                     if title:
                                         hd.text(title, font_weight="bold")
