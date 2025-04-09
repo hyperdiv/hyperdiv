@@ -76,7 +76,7 @@ def global_state(klass):
     """
     global global_key_id
     if not issubclass(klass, BaseState):
-        raise ValueError("You cannot use `@global_component` with this class.")
+        raise ValueError("You cannot use `@global_state` with this class.")
     klass._key = f"global-state-{global_key_id}"
     global_key_id += 1
     return klass
