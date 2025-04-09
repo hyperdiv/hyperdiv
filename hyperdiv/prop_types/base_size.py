@@ -1,4 +1,7 @@
 from .hyperdiv_type import HyperdivType
+from .. import design_tokens as tokens
+from .union import Union
+from .design_token import DesignToken
 
 
 def parse_number(string, low=float("-inf"), high=float("+inf")):
@@ -163,3 +166,4 @@ class BaseSizeDef(HyperdivType):
 
 
 BaseSize = BaseSizeDef()
+Size = Union(DesignToken(tokens.Spacing), BaseSize)
