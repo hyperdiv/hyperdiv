@@ -1,7 +1,8 @@
 import re
 from functools import cache
 from .hyperdiv_type import HyperdivType
-from .common_type_defs import Size, Color
+from .size import Size
+from .color import Color
 
 
 class BorderEdgeDef(HyperdivType):

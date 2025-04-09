@@ -1,5 +1,5 @@
 from .hyperdiv_type import HyperdivType
-from .common_type_defs import Size
+from .size import Size
 
 
 def uniform_box(values):
