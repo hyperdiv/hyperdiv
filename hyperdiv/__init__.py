@@ -39,7 +39,9 @@ from .prop_types import (
     StringEvent,
     Event,
     CSSField,
+    Size,
 )
+from .prop_types.color import color_mix, lighten, darken
 from .ext import (
     template,
     router,
