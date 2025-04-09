@@ -1,5 +1,5 @@
 import pytest
-from ..base_size import parse_number, BaseSize
+from ..size import parse_number, BaseSize
 
 
 def test_base_size():

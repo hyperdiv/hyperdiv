@@ -1,7 +1,7 @@
 import pytest
 from ..optional import Optional
 from ..native import Int
-from ..base_size import BaseSize
+from ..size import BaseSize
 
 
 def test_optional():

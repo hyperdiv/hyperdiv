@@ -1,7 +1,7 @@
 import pytest
 from ..css_field import CSSField
 from ..native import Int
-from ..base_size import BaseSize
+from ..size import BaseSize
 
 
 def test_css_field():
