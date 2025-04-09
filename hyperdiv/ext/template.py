@@ -100,19 +100,18 @@ class template:
                         if sidebar and not wide:
                             if hd.icon_button("list").clicked:
                                 self._drawer.opened = not self._drawer.opened
-                        if logo or title:
-                            with hd.link(
-                                href="/",
-                                direction="horizontal",
-                                gap=1,
-                                align="center",
-                                font_color="neutral-900",
-                            ):
-                                if logo:
-                                    hd.image(logo, height=2)
-                                with hd.box() as self._app_title:
-                                    if title:
-                                        hd.text(title, font_weight="bold")
+                        with hd.link(
+                            href="/",
+                            direction="horizontal",
+                            gap=1,
+                            align="center",
+                            font_color="neutral-900",
+                        ):
+                            if logo:
+                                hd.image(logo, height=2)
+                            with hd.box() as self._app_title:
+                                if title:
+                                    hd.text(title, font_weight="bold")
                     with hd.hbox(align="center"):
                         self._topbar_links = hd.hbox(align="center")
                         if theme_switcher:
