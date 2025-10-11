@@ -128,6 +128,7 @@ from .components.box_list import box_list
 from .components.box_list_item import box_list_item
 from .components.nav import nav
 from .components.local_storage import local_storage
+from .components.cookies import cookies
 from .components.task import task
 from .components.style import style
 from .components.animation import animation, keyframe
