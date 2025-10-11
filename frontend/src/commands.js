@@ -45,7 +45,6 @@ const commandDefinitions = {
       if (options.same_site) {
         cookieString += `; samesite=${options.same_site}`;
       }
-      console.log(cookieString);
       document.cookie = cookieString;
       return true;
     },
