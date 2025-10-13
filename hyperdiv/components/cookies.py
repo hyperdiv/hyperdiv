@@ -125,7 +125,8 @@ class cookies:
         same_site="lax",
         domain=None,
     ):
-        """Sets a cookie
+        """
+        Sets a cookie.
 
         Args:
 
@@ -136,10 +137,9 @@ class cookies:
           lifetime of the cookie in seconds. If a Python `datetime`
           object, it is interpreted as an absolute time in the future
           when the cookie will expire.
-        * `domain`: Domain scope (e.g., `".foo.com"`)
+        * `domain`: Domain scope (e.g., `"foo.com"`)
         * `secure`: Only send cookie over HTTPS
         * `same_site`: `"strict"`, `"lax"`, or `"none"`
-
         """
 
         if not isinstance(name, str):
@@ -188,14 +188,28 @@ class cookies:
         return result
 
     @staticmethod
-    def remove_cookie(name):
+    def remove_cookie(name, domain=None):
         """
         Removes a cookie.
+
+        Args:
+
+        * `name`: The cookie name
+        * `domain`: If a cookie was previously set with a specific
+           domain parameter, you have to specify that same domain here
+           in order to remove the cookie.
         """
         if not isinstance(name, str):
             raise ValueError("Cookie names must be strings.")
 
-        result = ui_write("cookies", "removeCookie", [name])
+        options = dict()
+
+        if domain:
+            if not isinstance(domain, str):
+                raise ValueError("`domain` must be a string.")
+            options["domain"] = domain
+
+        result = ui_write("cookies", "removeCookie", [name, options])
 
         cookies._cache.clear_cache_at_key(name)
 
