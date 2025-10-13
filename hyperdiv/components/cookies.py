@@ -49,14 +49,9 @@ class cookies:
     handled entirely in Javascript, the cookie `path` setting is not
     supported.
 
-    The `expires` setting is also not exposed since it's redundant
-    with `max_age`. However, the frontend implementation will set
-    `expires` (based on the `max_age` argument) in case an older
-    browser doesn't support the `maxAge` setting.
-
     ## Cookie Expiration
 
-    The `max_age` argument to `set_cookie` allows setting a cookie
+    The `expires` argument to `set_cookie` allows setting a cookie
     that expires automatically. However, remember that Hyperdiv caches
     cookie reads. In a long running Hyperdiv app, `get_cookie` can
     keep returning an expired cookie value after the browser has
@@ -83,8 +78,7 @@ class cookies:
 
     In this pattern, whenever the app runs, it will check if at least
     5 seconds have elapsed since the last read, then it forces a
-    re-read by calling `cookie_read.clear()`
-
+    re-read by calling `cookie_read.clear()`.
     """
 
     # A cache that remembers results from previous local storage reads
