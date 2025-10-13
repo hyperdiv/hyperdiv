@@ -1,3 +1,4 @@
+import pytest
 from ...test_utils import MockRunner
 from ..cookies import cookies
 from ..plaintext import plaintext
@@ -35,6 +36,11 @@ def test_get_cookie():
         assert msg["diff"][text_key]["props"]["content"] == "Bunnies"
 
 
+def test_get_cookie_validation():
+    with pytest.raises(ValueError):
+        cookies.get_cookie(0)
+
+
 def test_set_cookie():
     def app():
         cookies.set_cookie("foo", "bar")
@@ -66,6 +72,26 @@ def test_set_cookie_args():
         assert args[2]["expires"].endswith("Z")
 
 
+def test_set_cookie_validation():
+    with pytest.raises(ValueError):
+        cookies.set_cookie(1, "hello")
+
+    with pytest.raises(ValueError):
+        cookies.set_cookie("name", 2)
+
+    with pytest.raises(ValueError):
+        cookies.set_cookie("name", "hello", expires=-1)
+
+    with pytest.raises(ValueError):
+        cookies.set_cookie("name", "hello", secure="yes")
+
+    with pytest.raises(ValueError):
+        cookies.set_cookie("name", "hello", domain=0)
+
+    with pytest.raises(ValueError):
+        cookies.set_cookie("name", "hello", same_site="stuff")
+
+
 def test_remove_cookie():
     def app():
         cookies.remove_cookie("foo")
@@ -75,6 +101,14 @@ def test_remove_cookie():
         cmd = msg["commands"][0]
         assert cmd["command"] == "removeCookie"
         assert cmd["args"][0] == "foo"
+
+
+def test_remove_cookie_validation():
+    with pytest.raises(ValueError):
+        cookies.remove_cookie(0)
+
+    with pytest.raises(ValueError):
+        cookies.remove_cookie("name", domain=0)
 
 
 def test_remove_cookie_domain():
