@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { websocket } from "./websocket.js";
 
 const commandDefinitions = {
@@ -11,46 +12,19 @@ const commandDefinitions = {
   cookies: {
     getCookie: (args) => {
       const [name] = args;
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) {
-        return parts.pop().split(";").shift();
-      }
-      return null;
+      return Cookies.get(name);
     },
     setCookie: (args) => {
       const [name, value, options] = args;
-      let cookieString = `${name}=${value}`;
-
-      // Handle max_age with fallback to expires for old browsers
-      if (options.max_age !== null && options.max_age !== undefined) {
-        cookieString += `; max-age=${options.max_age}`;
-
-        // Add expires as fallback for ancient browsers (IE < 8)
-        // Modern browsers will ignore this since max-age is set
-        const expires = new Date();
-        expires.setTime(expires.getTime() + options.max_age * 1000);
-        cookieString += `; expires=${expires.toUTCString()}`;
+      if (options.expires) {
+        options.expires = new Date(options.expires);
       }
-
-      // Always set path=/
-      cookieString += "; path=/";
-
-      if (options.domain) {
-        cookieString += `; domain=${options.domain}`;
-      }
-      if (options.secure) {
-        cookieString += "; secure";
-      }
-      if (options.same_site) {
-        cookieString += `; samesite=${options.same_site}`;
-      }
-      document.cookie = cookieString;
+      Cookies.set(name, value, options);
       return true;
     },
     removeCookie: (args) => {
       const [name] = args;
-      document.cookie = `${name}=; max-age=0; path=/`;
+      Cookies.remove(name);
       return true;
     },
   },
