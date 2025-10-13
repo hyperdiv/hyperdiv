@@ -37,18 +37,6 @@ class cookies:
         hd.cookies.remove_cookie("test")
     ```
 
-    ## Caveats
-
-    In this implementation of cookies, cookies are read/written solely
-    by Javascript in the browser. Therefore the `httpOnly` cookie
-    setting is not supported.
-
-    Hyperdiv is currently limited to running at path `/` -- you cannot
-    (yet) serve an app from a subpath like `https://foo.com/bar/` --
-    and since Hyperdiv serves a single-page app whose routing is
-    handled entirely in Javascript, the cookie `path` setting is not
-    supported.
-
     ## Cookie Expiration
 
     The `expires` argument to `set_cookie` allows setting a cookie
@@ -79,6 +67,21 @@ class cookies:
     In this pattern, whenever the app runs, it will check if at least
     5 seconds have elapsed since the last read, then it forces a
     re-read by calling `cookie_read.clear()`.
+
+    ## Unsupported Cookie Settings
+
+    ### `httpOnly`
+
+    In this implementation of cookies, cookies are read/written solely
+    by Javascript in the browser. Therefore the `httpOnly` cookie
+    setting is not supported.
+
+    ### `path`
+
+    Hyperdiv serves a single-page app whose URL changes and routing
+    are done in Javascript. From a cookies perspective, Hyperdiv does
+    not have a meaningful notion of "path," so the `path` cookie
+    setting is not supported.
     """
 
     # A cache that remembers results from previous local storage reads
@@ -131,9 +134,9 @@ class cookies:
           lifetime of the cookie in seconds. If a Python `datetime`
           object, it is interpreted as an absolute time in the future
           when the cookie will expire.
-        * `domain`: Domain scope (e.g., `"foo.com"`)
         * `secure`: Only send cookie over HTTPS
         * `same_site`: `"strict"`, `"lax"`, or `"none"`
+        * `domain`: Domain scope (e.g., `"foo.com"`)
         """
 
         if not isinstance(name, str):
