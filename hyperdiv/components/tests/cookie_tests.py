@@ -44,12 +44,14 @@ def test_set_cookie():
         cmd = msg["commands"][0]
         assert cmd["command"] == "setCookie"
         assert cmd["args"][:2] == ["foo", "bar"]
-        assert cmd["args"][2] == dict(max_age=None, secure=False, same_site="lax")
+        assert cmd["args"][2] == dict(sameSite="lax", secure=False)
 
 
 def test_set_cookie_args():
     def app():
-        cookies.set_cookie("foo", "bar", max_age=20, secure=True, same_site="strict")
+        cookies.set_cookie(
+            "foo", "bar", expires=20, secure=True, same_site="strict", domain="foo.xyz"
+        )
 
     with MockRunner(app) as mr:
         msg = mr.connection.msgs[-1]
@@ -58,7 +60,10 @@ def test_set_cookie_args():
         args = cmd["args"]
         assert args[0] == "foo"
         assert args[1] == "bar"
-        assert args[2] == dict(max_age=20, secure=True, same_site="strict")
+        assert args[2]["sameSite"] == "strict"
+        assert args[2]["secure"] is True
+        assert args[2]["domain"] == "foo.xyz"
+        assert args[2]["expires"].endswith("Z")
 
 
 def test_remove_cookie():
@@ -69,4 +74,16 @@ def test_remove_cookie():
         msg = mr.connection.msgs[-1]
         cmd = msg["commands"][0]
         assert cmd["command"] == "removeCookie"
-        assert cmd["args"][:1] == ["foo"]
+        assert cmd["args"][0] == "foo"
+
+
+def test_remove_cookie_domain():
+    def app():
+        cookies.remove_cookie("foo", domain="foo.xyz")
+
+    with MockRunner(app) as mr:
+        msg = mr.connection.msgs[-1]
+        cmd = msg["commands"][0]
+        assert cmd["command"] == "removeCookie"
+        assert cmd["args"][0] == "foo"
+        assert cmd["args"][1] == dict(domain="foo.xyz")
