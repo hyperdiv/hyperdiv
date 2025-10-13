@@ -10,22 +10,14 @@ const commandDefinitions = {
     clear: (args) => localStorage.clear(...args),
   },
   cookies: {
-    getCookie: (args) => {
-      const [name] = args;
-      return Cookies.get(name);
-    },
+    getCookie: (args) => Cookies.get(...args),
+    removeCookie: (args) => Cookies.remove(...args),
     setCookie: (args) => {
       const [name, value, options] = args;
       if (options.expires) {
         options.expires = new Date(options.expires);
       }
-      Cookies.set(name, value, options);
-      return true;
-    },
-    removeCookie: (args) => {
-      const [name] = args;
-      Cookies.remove(name);
-      return true;
+      return Cookies.set(name, value, options);
     },
   },
 };
