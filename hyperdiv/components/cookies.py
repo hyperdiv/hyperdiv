@@ -1,3 +1,4 @@
+from datetime import datetime, timezone, timedelta
 from ..ui_command import UICommandCache, ui_read, ui_write
 
 
@@ -106,40 +107,79 @@ class cookies:
         cookie value as a string, or `None` if the cookie does not
         exist.
         """
+
+        if not isinstance(name, str):
+            raise ValueError("Cookie names must be strings.")
+
         result, sent = ui_read("cookies", "getCookie", [name])
         if sent:
             cookies._cache.cache_result(name, result)
         return result
 
     @staticmethod
-    def set_cookie(name, value, max_age=None, secure=False, same_site="lax"):
-        """
-        Sets a cookie.
+    def set_cookie(
+        name,
+        value,
+        expires=None,
+        secure=False,
+        same_site="lax",
+        domain=None,
+    ):
+        """Sets a cookie
 
         Args:
 
         * `name`: The cookie name
-        * `value`: The cookie value (must be a string)
-        * `max_age`: Cookie lifespan in seconds. When this number of
-          seconds elapses, the cookie is automatically deleted by the
-          browser. `None` means the cookie does not expire.
+        * `value`: The cookie value
+        * `expires`: Specifies when the cookie should automatically
+          expire. If a positive integer, it is interpreted as the
+          lifetime of the cookie in seconds. If a Python `datetime`
+          object, it is interpreted as an absolute time in the future
+          when the cookie will expire.
         * `domain`: Domain scope (e.g., `".foo.com"`)
         * `secure`: Only send cookie over HTTPS
         * `same_site`: `"strict"`, `"lax"`, or `"none"`
 
         """
 
+        if not isinstance(name, str):
+            raise ValueError("Cookie names must be strings.")
+
         if not isinstance(value, str):
-            raise ValueError("cookie.set_item can only store strings.")
+            raise ValueError("Cookie values must be strings.")
+
+        options = dict()
 
         if same_site not in ("strict", "lax", "none"):
-            raise ValueError("same_site must be 'strict', 'lax', or 'none'")
+            raise ValueError("`same_site` must be 'strict', 'lax', or 'none'")
 
-        options = {
-            "max_age": max_age,
-            "secure": secure,
-            "same_site": same_site,
-        }
+        options["sameSite"] = same_site
+
+        if domain:
+            if not isinstance(domain, str):
+                raise ValueError("`domain` must be a string.")
+            options["domain"] = domain
+
+        if expires:
+            expires_dt = None
+
+            if isinstance(expires, int):
+                expires_dt = datetime.now(timezone.utc) + timedelta(seconds=expires)
+            elif isinstance(expires, datetime):
+                expires_dt = expires
+                if expires_dt.tzinfo is None:
+                    expires_dt = expires_dt.astimezone()
+                expires_dt = expires.astimezone(timezone.utc)
+            else:
+                raise ValueError("`expires` must be an int or a datetime object")
+
+            options["expires"] = expires_dt.isoformat().replace("+00:00", "Z")
+
+        if secure is not None:
+            if not isinstance(secure, bool):
+                raise ValueError("`secure` must be a bool")
+
+            options["secure"] = secure
 
         result = ui_write("cookies", "setCookie", [name, value, options])
 
@@ -152,6 +192,9 @@ class cookies:
         """
         Removes a cookie.
         """
+        if not isinstance(name, str):
+            raise ValueError("Cookie names must be strings.")
+
         result = ui_write("cookies", "removeCookie", [name])
 
         cookies._cache.clear_cache_at_key(name)
