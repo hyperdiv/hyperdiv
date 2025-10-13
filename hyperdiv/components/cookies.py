@@ -155,15 +155,15 @@ class cookies:
 
         options["sameSite"] = same_site
 
-        if domain:
+        if domain is not None:
             if not isinstance(domain, str):
                 raise ValueError("`domain` must be a string.")
             options["domain"] = domain
 
-        if expires:
+        if expires is not None:
             expires_dt = None
 
-            if isinstance(expires, int):
+            if isinstance(expires, int) and expires > 0:
                 expires_dt = datetime.now(timezone.utc) + timedelta(seconds=expires)
             elif isinstance(expires, datetime):
                 expires_dt = expires
@@ -171,7 +171,9 @@ class cookies:
                     expires_dt = expires_dt.astimezone()
                 expires_dt = expires.astimezone(timezone.utc)
             else:
-                raise ValueError("`expires` must be an int or a datetime object")
+                raise ValueError(
+                    "`expires` must be a positive int or a datetime object"
+                )
 
             options["expires"] = expires_dt.isoformat().replace("+00:00", "Z")
 
@@ -204,7 +206,7 @@ class cookies:
 
         options = dict()
 
-        if domain:
+        if domain is not None:
             if not isinstance(domain, str):
                 raise ValueError("`domain` must be a string.")
             options["domain"] = domain
