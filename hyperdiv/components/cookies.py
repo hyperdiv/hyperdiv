@@ -31,26 +31,31 @@ class cookies:
     hd.markdown("`test` value:", command.result)
 
     if hd.button("Set").clicked:
-        hd.cookies.set_cookie("test", "Bunnies")
+        # Will auto-expire after 3 seconds
+        hd.cookies.set_cookie("test", "Bunnies", expires=3)
 
     if hd.button("Remove").clicked:
         hd.cookies.remove_cookie("test")
+
+    if hd.button("Re-Read").clicked:
+        command.clear()
     ```
 
-    ## Cookie Expiration
+    ## Detecting Expired Cookies
 
-    The `expires` argument to `set_cookie` allows setting a cookie
-    that expires automatically. However, remember that Hyperdiv caches
-    cookie reads. In a long running Hyperdiv app, `get_cookie` can
-    keep returning an expired cookie value after the browser has
-    automatically deleted it.
+    Notice that in the example above, the displayed cookie value does
+    not auto-update after 3 seconds, when the cookie has expired. In
+    order to get the new value, you need to click the "Re-Read" button
+    to clear the cookie read command.
 
-    To mitigate this, you can periodically re-read the cookie. One
-    such pattern:
+    To auto detect cookie expiration, you can periodically re-read the
+    cookie. One such pattern:
 
     ```py-nodemo
     def main():
-        s = hd.state(time=time.time())
+        s = hd.state(time=None)
+        if s.time is None:
+            s.time = time.time()
 
         cookie_read = hd.cookies.get_cookie("auth_token")
         if cookie_read.done:
@@ -65,8 +70,9 @@ class cookies:
     ```
 
     In this pattern, whenever the app runs, it will check if at least
-    5 seconds have elapsed since the last read, then it forces a
-    re-read by calling `cookie_read.clear()`.
+    5 seconds have elapsed since the last read, in which case it
+    forces a re-read by calling `cookie_read.clear()`. If the cookie
+    has expired, `login_page()` will be rendered.
 
     ## Encoding
 
