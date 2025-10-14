@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import { websocket } from "./websocket.js";
 
 const commandDefinitions = {
@@ -7,6 +8,17 @@ const commandDefinitions = {
     setItem: (args) => localStorage.setItem(...args),
     removeItem: (args) => localStorage.removeItem(...args),
     clear: (args) => localStorage.clear(...args),
+  },
+  cookies: {
+    getCookie: (args) => Cookies.get(...args),
+    removeCookie: (args) => Cookies.remove(...args),
+    setCookie: (args) => {
+      const [name, value, options] = args;
+      if (options.expires) {
+        options.expires = new Date(options.expires);
+      }
+      return Cookies.set(name, value, options);
+    },
   },
 };
 
@@ -27,7 +39,7 @@ export const executeCommands = (commands) => {
     websocket.sendUpdate(
       [resultKey, "running", false],
       [resultKey, "done", true],
-      [resultKey, "result", result]
+      [resultKey, "result", result],
     );
   }
 };
