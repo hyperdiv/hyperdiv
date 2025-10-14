@@ -68,13 +68,23 @@ class cookies:
     5 seconds have elapsed since the last read, then it forces a
     re-read by calling `cookie_read.clear()`.
 
+    ## Encoding
+
+    Hyperdiv uses
+    [`js-cookie`](https://www.npmjs.com/package/js-cookie) to
+    read/write cookies in the browser. `js-cookie` encodes/decodes
+    cookie names and values such that virtually any string can be used
+    as the name or value of a cookie. If you're setting a cookie
+    intended to be read by some other app, and your cookie's name or
+    value contain esoteric characters, be mindful of `js-cookie`'s
+    encoding strategy.
+
     ## Unsupported Cookie Settings
 
     ### `httpOnly`
 
-    In this implementation of cookies, cookies are read/written solely
-    by Javascript in the browser. Therefore the `httpOnly` cookie
-    setting is not supported.
+    Since in Hyperdiv, cookies are read/written solely by Javascript
+    in the browser, the `httpOnly` cookie setting is not supported.
 
     ### `path`
 
