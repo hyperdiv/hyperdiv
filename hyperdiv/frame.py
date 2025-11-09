@@ -199,6 +199,14 @@ class TaskFrame(StateAccessFrame):
     Component class.
     """
 
+    def get_state(self, key, prop_name):
+        prop = self._app_runner.state.get_prop(key, prop_name)
+
+        if prop.is_event_prop:
+            raise ValueError(f"Event prop '{prop_name}' cannot be accessed in a task.")
+
+        return super().get_state(key, prop_name)
+
     def update_state(self, key, prop_name, value):
         updated = super().update_state(key, prop_name, value)
         if updated:
