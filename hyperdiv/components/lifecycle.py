@@ -40,7 +40,8 @@ class lifecycle(Singleton):
 
     _key = "lifecycle"
 
-    # True for one frame when the app just started.
+    # True for one frame when the app function runs for the first
+    # time.
     app_started = Prop(BoolEvent, False)
-    # True for one frame when the app is about to exit.
+    # True for one frame when the app function runs for the last time.
     app_stopped = Prop(BoolEvent, False)
